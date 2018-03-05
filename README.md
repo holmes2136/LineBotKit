@@ -1,10 +1,5 @@
 # LineBotKit
 
-
-
-
-# LineBotKit
-
 ### Summary :
 Provide function which integrate with Line Messaging api
 
