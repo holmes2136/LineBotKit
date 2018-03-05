@@ -3,98 +3,39 @@
 ### Summary :
 Provide function which integrate with Line Messaging api
 
-### Features :
+#### Pre-prepare
+Developer need to apply line api token first , you can go to the following link :
 ```
--- Provide easy understading interface 
--- Provide interface to implement Ioc
+Where apply the token :https://at.line.me
+How to apply and setup instruction : https://dotblogs.com.tw/rexhuang/2017/07/02/120455
 ```
 
-### How to initial line bot :
-The token string come from Line , developer need to register with Line@ first
+
+#### How to initial line bot :
+The token string come from we setup above
 ```
    LineClientManager clientManager = new LineClientManager("token");
-
 ```
 
-## Push Message APIs :
 
-### How to send text message :
+#### What functionalities do we have
 ```  
-   ResponseItem result = await clientManager.PushTextMessage("USER IDEN", "MESSAGE");
-```
-
-### How to send image message :
-```
-   ResponseItem result = await clientManager.PushImageMessage("USER IDEN", 
-                                                              "ImageContentUrl", 
-                                                              "ImagePreviewUrl");
-
-```
-
-### How to send sticker message :
-```
-   ResponseItem result = await clientManager.PushStickerMessage("USER IDEN", PackageId, StickerId);
-```
-
-### How to send  message to mutiple user :
-```
-   ResponseItem result = await clientManager.MulticastAsync(List<string> to, List<Message> messages);
-```
-
-MulticastAsync
-
-## Reply Message APIs : 
-
-### How to reply text message :
-```  
-   ResponseItem result = await clientManager.ReplyTextMessage("REPLY TOKEN, "MESSAGE");
-```
-
-### How to reply image message :
-```  
-   ResponseItem result = await clientManager.ReplyImageMessage("REPLY TOKEN", ImageContentUrl, ImagePreviewUr);
-```
-### How to reply sticker message :
-```  
-   ResponseItem result = await clientManager.ReplyStickerMessage("REPLY TOKEN", PackageId, StickerId);
-```
-
-
-## Group APIs : 
-
-### Leave Group : 
-```  
-     ResponseItem result = await clientManager.LeaveGroup("GROUP IDEN");
-```
-
-### Get Profile of Group : 
-```  
-     ResponseItem result = await clientManager.GetGroupMemberProfile("USER IDEN", "GROUP IDEN");
-```
-
-### Get Member IDEN of Group : 
-```  
-     ResponseItem result = await clientManager.GetGroupMemberIds("GROUP IDEN");
-```
-
-
-## Room APIs : 
-
-### Get Profile of Room : 
-```  
-     ResponseItem result = await clientManager.GetRoomMemberProfile("USER IDEN", "ROOM IDEN");
-```
-
-### Get Member IDEN of Room : 
-```  
-     ResponseItem result = await clientManager.GetRoomMemberIds("ROOM IDEN");
-```
-
-
-### Get Profile : 
-```  
-     ResponseItem result = await clientManager.GetProfile("USER IDEN");
-```
+Task<ResponseItem> PushTextMessage(string to , string message);
+Task<ResponseItem> PushImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
+Task<ResponseItem> PushStickerMessage(string to, int packageId, int stickerId);
+Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
+Task<ResponseItem> ReplyTextMessage(string to, string message);
+Task<ResponseItem> ReplyImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
+Task<ResponseItem> ReplyStickerMessage(string to, int packageId, int stickerId);
+Task<ResponseItem> ReplyMessage(ReplyMessageRequest reply);
+Task<ResponseItem> MulticastAsync(List<string> to, List<Message> messages);
+Task<ResponseItem> LeaveGroup(string groupId);
+Task<Profile> GetGroupMemberProfile(string userId, string groupId);
+Task<Profile> GetRoomMemberProfile(string userId, string groupId);
+Task<ResponseItem> GetGroupMemberIds(string groupId);
+Task<ResponseItem> GetRoomMemberIds(string roomId);
+Task<Profile> GetProfile(string userId);
+``` 
 
 
 
