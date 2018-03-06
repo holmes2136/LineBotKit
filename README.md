@@ -1,7 +1,7 @@
 # LineBotKit
 
 ### Summary :
-Provide function which integrate with Line Messaging api
+Provide functions which integrate with Line Messaging api
 
 #### Pre-prepare
 Developer need to apply line api token first , you can go to the following link :
@@ -10,6 +10,13 @@ Where apply the token :https://at.line.me
 How to apply and setup instruction : https://dotblogs.com.tw/rexhuang/2017/07/02/120455
 ```
 
+#### Where can we get the library
+```
+We can download from Nuget or execute the following command in nuget package console
+
+Install-Package LineBotKit.Client -Version 1.0.0
+
+```
 
 #### How to initial line bot :
 The token string come from we setup above
