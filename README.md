@@ -44,7 +44,15 @@ Task<ResponseItem> GetRoomMemberIds(string roomId);
 Task<Profile> GetProfile(string userId);
 ``` 
 
+### Quick glimpse what the result looks like
+``` 
+1. Open the application which under "Simulator"  file
+2. Excute the application and change the url with like "http://localhost:port/swagger"
+3. You will see the following page
 
+![alt text](https://i.imgur.com/N2DBlWA.jpg)
+
+``` 
 
 
 
