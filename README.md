@@ -50,7 +50,7 @@ Task<Profile> GetProfile(string userId);
 2. Excute the application and change the url with like "http://localhost:port/swagger"
 3. You will see the following page
 
-![alt text](https://i.imgur.com/N2DBlWA.jpg)
+[Demo](https://i.imgur.com/N2DBlWA.jpg)
 
 ``` 
 
