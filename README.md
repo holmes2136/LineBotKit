@@ -51,6 +51,7 @@ Task<Profile> GetProfile(string userId);
 3. You will see the following page
 
 ![Screen shot](https://user-images.githubusercontent.com/4464354/37158499-7baf8904-2326-11e8-9970-310c0f0c9a44.jpg)
+![2018-03-08_225107](https://user-images.githubusercontent.com/4464354/37158499-7baf8904-2326-11e8-9970-310c0f0c9a44.jpg)
 
 ``` 
 
