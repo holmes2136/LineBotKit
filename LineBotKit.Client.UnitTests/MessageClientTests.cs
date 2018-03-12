@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using LineBotKit.Common.Model.Message;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Converters;
 
 namespace LineBotKit.Client.UnitTests
 {
@@ -15,12 +17,21 @@ namespace LineBotKit.Client.UnitTests
     {
         private Mock<ILineApiClient> _webApiClient;
         private Mock<IMessageClient> _messagClient;
+        private JsonSerializerSettings jsonSettings;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _webApiClient = new Mock<ILineApiClient>();
             _messagClient = new Mock<IMessageClient>();
+
+            jsonSettings = new JsonSerializerSettings()
+             {
+                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                 NullValueHandling = NullValueHandling.Ignore
+             };
+
+            jsonSettings.Converters.Add(new StringEnumConverter(true));
 
         }
 
@@ -53,7 +64,7 @@ namespace LineBotKit.Client.UnitTests
             };
 
             // Verify
-            Assert.AreEqual<string>(JsonConvert.SerializeObject(request), "{\"to\":\"user id\",\"messages\":[{\"text\":\"text\",\"type\":\"text\"}]}");
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"to\":\"user id\",\"messages\":[{\"text\":\"text\",\"type\":\"text\"}]}");
         }
 
         [TestMethod]
@@ -68,7 +79,25 @@ namespace LineBotKit.Client.UnitTests
             };
 
             // Verify
-            Assert.AreEqual<string>(JsonConvert.SerializeObject(request), "{\"to\":\"user id\",\"messages\":[{\"originalContentUrl\":\"orginally content url\",\"previewImageUrl\":\"preview image url\",\"type\":\"image\"}]}");
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"to\":\"user id\",\"messages\":[{\"originalContentUrl\":\"orginally content url\",\"previewImageUrl\":\"preview image url\",\"type\":\"image\"}]}");
+        }
+
+        [TestMethod]
+        public void PushAudioMessageRequest_JsonFormatTest()
+        {
+            int duration = 4000;
+            string orginallyContentUrl = "https://test.m4a";
+
+            PushMessageRequest request = new PushMessageRequest()
+            {
+                to = "user id",
+                messages = new List<Message>() {
+                      new AudioMessage(orginallyContentUrl,duration)
+                 }
+            };
+
+            // Verify
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"to\":\"user id\",\"messages\":[{\"originalContentUrl\":\"https://test.m4a\",\"duration\":4000,\"type\":\"audio\"}]}");
         }
 
         [TestMethod]
@@ -102,7 +131,7 @@ namespace LineBotKit.Client.UnitTests
             };
 
             // Verify
-            Assert.AreEqual<string>(JsonConvert.SerializeObject(request), "{\"to\":[\"test user\"],\"messages\":[{\"text\":\"test text\",\"type\":\"text\"}]}");
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"to\":[\"test user\"],\"messages\":[{\"text\":\"test text\",\"type\":\"text\"}]}");
         }
 
         [TestMethod]
@@ -134,7 +163,7 @@ namespace LineBotKit.Client.UnitTests
             };
 
             // Verify
-            Assert.AreEqual<string>(JsonConvert.SerializeObject(request), "{\"replyToken\":\"reply token\",\"messages\":[{\"text\":\"test text\",\"type\":\"text\"}]}");
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"replyToken\":\"reply token\",\"messages\":[{\"text\":\"test text\",\"type\":\"text\"}]}");
         }
 
     }

@@ -72,6 +72,26 @@ namespace LineBotKit.Client
             return await messageClient.PushMessage(pushMessageRequest);
         }
 
+        /// <summary>
+        /// Send audio message
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="originalContentUrl">URL of audio file (Max: 1000 characters),HTTPS,m4a,Max: 1 minute,Max: 10 MB</param>
+        /// <param name="duration">Length of audio file (milliseconds)</param>
+        /// <returns></returns>
+        public async Task<ResponseItem> PushAudioMessage(string to, string originalContentUrl, int duration)
+        {
+            var pushMessageRequest = new PushMessageRequest()
+            {
+                to = to,
+                messages = new List<Message>() {
+                      new AudioMessage(originalContentUrl,duration)
+                }
+            };
+
+            return await messageClient.PushMessage(pushMessageRequest);
+        }
+
         public async Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest)
         {
             if (pushMessageRequest.messages.Count > 5)

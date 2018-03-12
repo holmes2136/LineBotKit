@@ -16,6 +16,15 @@ namespace LineBotKit.Client
 
         Task<ResponseItem> PushStickerMessage(string to, int packageId, int stickerId);
 
+        /// <summary>
+        /// Send audio message
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="originalContentUrl">URL of audio file (Max: 1000 characters),HTTPS,m4a,Max: 1 minute,Max: 10 MB</param>
+        /// <param name="duration">Length of audio file (milliseconds)</param>
+        /// <returns></returns>
+        Task<ResponseItem> PushAudioMessage(string to, string originalContentUrl, int duration);
+
         Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
 
         Task<ResponseItem> ReplyTextMessage(string to, string message);
