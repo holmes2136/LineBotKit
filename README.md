@@ -59,3 +59,16 @@ Task<Profile> GetProfile(string userId);
 
 
 
+
+# Changelog #
+
+### 1.0.2
+- Add send video message functionality.
+
+----------
+
+### 1.0.1
+- Add send audio message functionality.
+
+
+
