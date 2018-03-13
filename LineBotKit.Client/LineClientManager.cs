@@ -81,11 +81,36 @@ namespace LineBotKit.Client
         /// <returns></returns>
         public async Task<ResponseItem> PushAudioMessage(string to, string originalContentUrl, int duration)
         {
+            Uri _originalContentUrl = new Uri(originalContentUrl);
+
             var pushMessageRequest = new PushMessageRequest()
             {
                 to = to,
                 messages = new List<Message>() {
-                      new AudioMessage(originalContentUrl,duration)
+                      new AudioMessage(_originalContentUrl.AbsoluteUri,duration)
+                }
+            };
+
+            return await messageClient.PushMessage(pushMessageRequest);
+        }
+
+        /// <summary>
+        /// Send video message
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="originalContentUrl">URL of video file (Max: 1000 characters) ,HTTPS,mp4,Max: 1 minute,Max: 10 MB</param>
+        /// <param name="previewImageUrl">URL of preview image (Max: 1000 characters),HTTPS,JPEG,Max: 240 x 240,Max: 1 MB</param>
+        /// <returns></returns>
+        public async Task<ResponseItem> PushVideoMessage(string to, string originalContentUrl, string previewImageUrl)
+        {
+            Uri _originalContentUrl = new Uri(originalContentUrl);
+            Uri _previewImageUrl = new Uri(previewImageUrl);
+
+            var pushMessageRequest = new PushMessageRequest()
+            {
+                to = to,
+                messages = new List<Message>() {
+                      new VideoMessage(_originalContentUrl.AbsoluteUri,_previewImageUrl.AbsoluteUri)
                 }
             };
 

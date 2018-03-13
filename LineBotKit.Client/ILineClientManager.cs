@@ -25,6 +25,15 @@ namespace LineBotKit.Client
         /// <returns></returns>
         Task<ResponseItem> PushAudioMessage(string to, string originalContentUrl, int duration);
 
+        /// <summary>
+        /// Send video message
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="originalContentUrl">URL of video file (Max: 1000 characters) ,HTTPS,mp4,Max: 1 minute,Max: 10 MB</param>
+        /// <param name="previewImageUrl">URL of preview image (Max: 1000 characters),HTTPS,JPEG,Max: 240 x 240,Max: 1 MB</param>
+        /// <returns></returns>
+        Task<ResponseItem> PushVideoMessage(string to, string originalContentUrl, string previewImageUrl);
+
         Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
 
         Task<ResponseItem> ReplyTextMessage(string to, string message);

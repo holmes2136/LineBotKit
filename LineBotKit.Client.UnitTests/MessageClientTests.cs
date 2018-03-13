@@ -101,6 +101,24 @@ namespace LineBotKit.Client.UnitTests
         }
 
         [TestMethod]
+        public void PushVideoMessageRequest_JsonFormatTest()
+        {
+            string originalContentUrl = "https://test.mp4";
+            string previewImageUrl = "https://test.jpg";
+
+            PushMessageRequest request = new PushMessageRequest()
+            {
+                to = "user id",
+                messages = new List<Message>() {
+                      new VideoMessage(originalContentUrl,previewImageUrl)
+                 }
+            };
+
+            // Verify
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"to\":\"user id\",\"messages\":[{\"originalContentUrl\":\"https://test.mp4\",\"previewImageUrl\":\"https://test.jpg\",\"type\":\"video\"}]}");
+        }
+
+        [TestMethod]
         public void MulticastAsync_RequestTest()
         {
 

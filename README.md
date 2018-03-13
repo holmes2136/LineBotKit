@@ -30,6 +30,8 @@ The token string come from we setup above
 Task<ResponseItem> PushTextMessage(string to , string message);
 Task<ResponseItem> PushImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
 Task<ResponseItem> PushStickerMessage(string to, int packageId, int stickerId);
+Task<ResponseItem> PushAudioMessage(string to, string originalContentUrl, int duration);
+Task<ResponseItem> PushVideoMessage(string to, string originalContentUrl, string previewImageUrl);
 Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
 Task<ResponseItem> ReplyTextMessage(string to, string message);
 Task<ResponseItem> ReplyImageMessage(string to, string imageContentUrl, string imagePreviewUrl);

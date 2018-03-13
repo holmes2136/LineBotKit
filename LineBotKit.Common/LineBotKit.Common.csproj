@@ -47,6 +47,7 @@
     <Compile Include="Model\BaseSize.cs" />
     <Compile Include="Model\ImageMapChild.cs" />
     <Compile Include="Model\Message\AudioMessage.cs" />
+    <Compile Include="Model\Message\VideoMessage.cs" />
     <Compile Include="Model\Template\ButtonsTemplate.cs" />
     <Compile Include="Model\Template\CarouselTemplate.cs" />
     <Compile Include="Model\Template\ConfirmTemplate.cs" />
