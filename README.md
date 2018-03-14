@@ -24,6 +24,11 @@ The token string come from we setup above
    LineClientManager clientManager = new LineClientManager("token");
 ```
 
+### Provide interface to implement IoC like following
+```
+  container.RegisterType<ILineClientManager, LineClientManager>(
+                  new InjectionConstructor("token"));
+```
 
 #### What functionalities do we have
 ```  
