@@ -24,6 +24,13 @@ The token string come from we setup above
    LineClientManager clientManager = new LineClientManager("token");
 ```
 
+#### Easy sample for send text message :
+The token string come from we setup above
+```
+   LineClientManager clientManager = new LineClientManager("token");
+   clientManager.PushTextMessage("user id","message");
+```
+
 #### Provide interface to implement IoC like following
 ```
   container.RegisterType<ILineClientManager, LineClientManager>(
