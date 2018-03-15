@@ -48,6 +48,7 @@ Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
 Task<ResponseItem> ReplyTextMessage(string to, string message);
 Task<ResponseItem> ReplyImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
 Task<ResponseItem> ReplyStickerMessage(string to, int packageId, int stickerId);
+Task<ResponseItem> ReplyStickerMessage(string to, string title, string address , decimal latitude , decimal longitude);
 Task<ResponseItem> ReplyMessage(ReplyMessageRequest reply);
 Task<ResponseItem> MulticastAsync(List<string> to, List<Message> messages);
 Task<ResponseItem> LeaveGroup(string groupId);
