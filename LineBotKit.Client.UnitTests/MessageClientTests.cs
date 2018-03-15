@@ -119,6 +119,26 @@ namespace LineBotKit.Client.UnitTests
         }
 
         [TestMethod]
+        public void PushLocationMessageRequest_JsonFormatTest()
+        {
+            string title = "my location";
+            string address = "〒150-0002 東京都渋谷区渋谷２丁目２１−１";
+            decimal latitude = 35.65910807942215M;
+            decimal longitude = 139.70372892916203M;
+
+            PushMessageRequest request = new PushMessageRequest()
+            {
+                to = "user id",
+                messages = new List<Message>() {
+                      new LocationMessage(title,address,latitude,longitude)
+                 }
+            };
+
+            // Verify
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"to\":\"user id\",\"messages\":[{\"title\":\"my location\",\"address\":\"〒150-0002 東京都渋谷区渋谷２丁目２１−１\",\"latitude\":35.65910807942215,\"longitude\":139.70372892916203,\"type\":\"location\"}]}");
+        }
+
+        [TestMethod]
         public void MulticastAsync_RequestTest()
         {
 

@@ -117,6 +117,28 @@ namespace LineBotKit.Client
             return await messageClient.PushMessage(pushMessageRequest);
         }
 
+        /// <summary>
+        /// Send location message
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="title"></param>
+        /// <param name="address"></param>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> PushLocationMessage(string to, string title, string address , decimal latitude , decimal longitude)
+        {
+            var pushMessageRequest = new PushMessageRequest()
+            {
+                to = to,
+                messages = new List<Message>() {
+                      new LocationMessage(title,address,latitude,longitude)
+                }
+            };
+
+            return await messageClient.PushMessage(pushMessageRequest);
+        }
+
         public async Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest)
         {
             if (pushMessageRequest.messages.Count > 5)

@@ -34,6 +34,17 @@ namespace LineBotKit.Client
         /// <returns></returns>
         Task<ResponseItem> PushVideoMessage(string to, string originalContentUrl, string previewImageUrl);
 
+        /// <summary>
+        /// Send location message
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="title"></param>
+        /// <param name="address"></param>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns></returns>
+        Task<ResponseItem> PushLocationMessage(string to, string title, string address, decimal latitude, decimal longitude);
+
         Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
 
         Task<ResponseItem> ReplyTextMessage(string to, string message);
