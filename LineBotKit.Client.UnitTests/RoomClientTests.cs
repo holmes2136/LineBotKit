@@ -79,12 +79,12 @@ namespace LineBotKit.Client.UnitTests
         public void GetMemberIds_RequestTest()
         {
 
-            _roomClient.Setup(x => x.GetMemberIds(It.IsAny<string>())).Returns(Task.FromResult<ResponseItem>(new ResponseItem()));
+            _roomClient.Setup(x => x.GetMemberIds(It.IsAny<string>())).Returns(Task.FromResult<MemberIdensResponse>(new MemberIdensResponse()));
 
             // Execute
-            Task<ResponseItem> response = _roomClient.Object.GetMemberIds("roomId");
+            Task<MemberIdensResponse> response = _roomClient.Object.GetMemberIds("roomId");
 
-            ResponseItem result = response.Result;
+            MemberIdensResponse result = response.Result;
 
             //// Verify
             Assert.IsNotNull(response);
