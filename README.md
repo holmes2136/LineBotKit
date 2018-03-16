@@ -54,8 +54,8 @@ Task<ResponseItem> MulticastAsync(List<string> to, List<Message> messages);
 Task<ResponseItem> LeaveGroup(string groupId);
 Task<Profile> GetGroupMemberProfile(string userId, string groupId);
 Task<Profile> GetRoomMemberProfile(string userId, string groupId);
-Task<ResponseItem> GetGroupMemberIds(string groupId);
-Task<ResponseItem> GetRoomMemberIds(string roomId);
+Task<MemberIdensResponse> GetGroupMemberIds(string groupId);
+Task<MemberIdensResponse> GetRoomMemberIds(string roomId);
 Task<Profile> GetProfile(string userId);
 ``` 
 
