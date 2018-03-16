@@ -244,12 +244,12 @@ namespace LineBotKit.Client
             return await roomClient.GetMemberProfile(userId, roomId);
         }
 
-        public async Task<ResponseItem> GetGroupMemberIds(string groupId)
+        public async Task<MemberIdensResponse> GetGroupMemberIds(string groupId)
         {
             return await groupClient.GetMemberIds(groupId);
         }
 
-        public async Task<ResponseItem> GetRoomMemberIds(string roomId)
+        public async Task<MemberIdensResponse> GetRoomMemberIds(string roomId)
         {
             return await roomClient.GetMemberIds(roomId);
         }

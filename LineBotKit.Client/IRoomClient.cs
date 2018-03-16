@@ -14,7 +14,7 @@ namespace LineBotKit.Client
 
         Task<Profile> GetMemberProfile(string userId, string roomId);
 
-        Task<ResponseItem> GetMemberIds(string roomId);
+        Task<MemberIdensResponse> GetMemberIds(string roomId);
 
     }
 }

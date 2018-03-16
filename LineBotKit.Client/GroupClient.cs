@@ -47,11 +47,11 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="groupId"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> GetMemberIds(string groupId)
+        public async Task<MemberIdensResponse> GetMemberIds(string groupId)
         {
             LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, string.Format("bot/group/{0}/members/ids",groupId));
             request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
+            return await ExecuteApiCallAsync<MemberIdensResponse>(request).ConfigureAwait(false);
         }
         
     }

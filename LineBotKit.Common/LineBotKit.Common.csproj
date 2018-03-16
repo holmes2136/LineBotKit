@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Model\BaseSize.cs" />
     <Compile Include="Model\ImageMapChild.cs" />
+    <Compile Include="Model\MemberIdensResponse.cs" />
     <Compile Include="Model\Message\AudioMessage.cs" />
     <Compile Include="Model\Message\LocationMessage.cs" />
     <Compile Include="Model\Message\VideoMessage.cs" />

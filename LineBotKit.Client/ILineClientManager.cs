@@ -65,9 +65,9 @@ namespace LineBotKit.Client
 
         Task<Profile> GetRoomMemberProfile(string userId, string groupId);
 
-        Task<ResponseItem> GetGroupMemberIds(string groupId);
+        Task<MemberIdensResponse> GetGroupMemberIds(string groupId);
 
-        Task<ResponseItem> GetRoomMemberIds(string roomId);
+        Task<MemberIdensResponse> GetRoomMemberIds(string roomId);
 
 
     }
