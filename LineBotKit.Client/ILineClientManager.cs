@@ -1,5 +1,6 @@
 ﻿using LineBotKit.Common.Model;
 using LineBotKit.Common.Model.Message;
+using LineBotKit.Common.Model.RichMenu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,6 +70,59 @@ namespace LineBotKit.Client
 
         Task<MemberIdensResponse> GetRoomMemberIds(string roomId);
 
+
+        #region Rich Menu
+
+        /// <summary>
+        /// Gets a rich menu via a rich menu ID.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        Task<RichMenu> GetRichMenu(string richMenuId);
+
+        /// <summary>
+        /// Creates a rich menu.
+        /// </summary>
+        /// <param name="richMenu"></param>
+        /// <returns></returns>
+        Task<RichMenuIdResponse> CreateRichMenu(RichMenu richMenu);
+
+        /// <summary>
+        /// Deletes a rich menu.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        Task<ResponseItem> DeleteRichMenu(string richMenuId);
+
+        /// <summary>
+        /// Gets the ID of the rich menu linked to a user.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<RichMenuIdResponse> GetRichMenuByUserId(string userId);
+
+        /// <summary>
+        /// Links a rich menu to a user. Only one rich menu can be linked to a user at one time.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        Task<ResponseItem> LinkRichMenuWithUser(string userId, string richMenuId);
+
+        /// <summary>
+        /// Unlinks a rich menu from a user.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<ResponseItem> UnLinkRichMenuWithUser(string userId);
+
+        /// <summary>
+        /// Gets a list of all uploaded rich menus.
+        /// </summary>
+        /// <returns></returns>
+        Task<RichMenuListResponse> GetRichMenuList();
+
+        #endregion
 
     }
 }

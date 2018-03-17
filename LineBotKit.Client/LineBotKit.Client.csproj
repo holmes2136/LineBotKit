@@ -49,11 +49,13 @@
     <Compile Include="IGroupClient.cs" />
     <Compile Include="ILineClientManager.cs" />
     <Compile Include="IMessageClient.cs" />
+    <Compile Include="IRichMenuClient.cs" />
     <Compile Include="IRoomClient.cs" />
     <Compile Include="IUserClient.cs" />
     <Compile Include="LineClientManager.cs" />
     <Compile Include="MessageClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RichMenuClient.cs" />
     <Compile Include="RoomClient.cs" />
     <Compile Include="UserClient.cs" />
   </ItemGroup>

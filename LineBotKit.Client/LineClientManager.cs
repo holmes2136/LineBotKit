@@ -1,5 +1,6 @@
 ﻿using LineBotKit.Common.Model;
 using LineBotKit.Common.Model.Message;
+using LineBotKit.Common.Model.RichMenu;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace LineBotKit.Client
         public RoomClient roomClient { get; set; }
         public UserClient userClient { get; set; }
         public GroupClient groupClient { get; set; }
+        public RichMenuClient richMenuClient { get; set; }
 
         public LineClientManager(string ChannelAccessToken)
         {
@@ -24,6 +26,7 @@ namespace LineBotKit.Client
             this.userClient = new UserClient(ChannelAccessToken);
             this.groupClient = new GroupClient(ChannelAccessToken);
             this.roomClient = new RoomClient(ChannelAccessToken);
+            this.richMenuClient = new RichMenuClient(ChannelAccessToken);
         }
 
         public MessageClient GetMessageClient()
@@ -253,5 +256,79 @@ namespace LineBotKit.Client
         {
             return await roomClient.GetMemberIds(roomId);
         }
+
+        #region RichMenu
+
+        /// <summary>
+        /// Gets a rich menu via a rich menu ID.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        public async Task<RichMenu> GetRichMenu(string richMenuId)
+        {
+            return await richMenuClient.Get(richMenuId);
+        }
+
+        /// <summary>
+        /// Creates a rich menu.
+        /// </summary>
+        /// <param name="richMenu"></param>
+        /// <returns></returns>
+        public async Task<RichMenuIdResponse> CreateRichMenu(RichMenu richMenu)
+        {
+            return await richMenuClient.Create(richMenu);
+        }
+
+        /// <summary>
+        /// Deletes a rich menu.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> DeleteRichMenu(string richMenuId)
+        {
+            return await richMenuClient.Delete(richMenuId);
+        }
+
+        /// <summary>
+        /// Gets the ID of the rich menu linked to a user.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<RichMenuIdResponse> GetRichMenuByUserId(string userId)
+        {
+            return await richMenuClient.GetRichMenuByUserId(userId);
+        }
+
+        /// <summary>
+        /// Links a rich menu to a user. Only one rich menu can be linked to a user at one time.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> LinkRichMenuWithUser(string userId, string richMenuId)
+        {
+            return await richMenuClient.LinkRichMenuWithUser(userId, richMenuId);
+        }
+
+        /// <summary>
+        /// Unlinks a rich menu from a user.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> UnLinkRichMenuWithUser(string userId)
+        {
+            return await richMenuClient.UnLinkRichMenuWithUser(userId);
+        }
+
+        /// <summary>
+        /// Gets a list of all uploaded rich menus.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<RichMenuListResponse> GetRichMenuList()
+        {
+            return await richMenuClient.GetRichMenuList();
+        }
+
+        #endregion
     }
 }

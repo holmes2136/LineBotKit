@@ -50,6 +50,13 @@
     <Compile Include="Model\Message\AudioMessage.cs" />
     <Compile Include="Model\Message\LocationMessage.cs" />
     <Compile Include="Model\Message\VideoMessage.cs" />
+    <Compile Include="Model\RichMenu\Action.cs" />
+    <Compile Include="Model\RichMenu\Area.cs" />
+    <Compile Include="Model\RichMenu\Bounds.cs" />
+    <Compile Include="Model\RichMenu\RichMenuIdResponse.cs" />
+    <Compile Include="Model\RichMenu\RichMenu.cs" />
+    <Compile Include="Model\RichMenu\RichMenuListResponse.cs" />
+    <Compile Include="Model\RichMenu\Size.cs" />
     <Compile Include="Model\Template\ButtonsTemplate.cs" />
     <Compile Include="Model\Template\CarouselTemplate.cs" />
     <Compile Include="Model\Template\ConfirmTemplate.cs" />
@@ -86,5 +93,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
