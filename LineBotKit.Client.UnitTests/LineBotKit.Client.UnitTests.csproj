@@ -68,6 +68,7 @@
     <Compile Include="GroupClientTests.cs" />
     <Compile Include="MessageClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RichMenuClientTest.cs" />
     <Compile Include="RoomClientTests.cs" />
     <Compile Include="UserClientTests.cs" />
   </ItemGroup>
