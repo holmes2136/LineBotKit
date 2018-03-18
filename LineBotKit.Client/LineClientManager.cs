@@ -165,9 +165,33 @@ namespace LineBotKit.Client
             return  messageClient.GetMessageContent(messageId);
         }
 
+        public async Task<ResponseItem> MulticastMessage(List<string> to, List<Message> messages)
+        {
+
+            if (to.Count > 150)
+            {
+                throw new ArgumentException("Maximum to are 150 users");
+            }
+
+            if (messages.Count > 5)
+            {
+                throw new ArgumentException("Maximum 5 messages");
+            }
+
+            MultiCastMessageRequest multicastMessage = new MultiCastMessageRequest()
+            {
+                to = to,
+                messages = messages
+            };
+            return await messageClient.MulticastMessage(multicastMessage);
+
+        }
+
         #endregion
 
-        public async Task<ResponseItem> ReplyTextMessage(string replyToken,string message)
+        #region Reply related
+
+        public async Task<ResponseItem> ReplyTextMessage(string replyToken, string message)
         {
             var replyMessageRequest = new ReplyMessageRequest()
             {
@@ -177,7 +201,7 @@ namespace LineBotKit.Client
                    new TextMessage(message)
                 }
             };
-          
+
             return await messageClient.ReplyMessage(replyMessageRequest);
         }
 
@@ -219,32 +243,18 @@ namespace LineBotKit.Client
             return await messageClient.ReplyMessage(reply);
         }
 
-        public async Task<ResponseItem> MulticastAsync(List<string> to, List<Message> messages)
-        {
+        #endregion
 
-            if (to.Count > 150)
-            {
-                throw new ArgumentException("Maximum to are 150 users");
-            }
-
-            if (messages.Count > 5)
-            {
-                throw new ArgumentException("Maximum 5 messages");
-            }
-
-            MultiCastMessageRequest multicastMessage = new MultiCastMessageRequest()
-            {
-                to = to,
-                messages = messages
-            };
-            return await messageClient.MulticastAsync(multicastMessage);
-
-        }
+        #region Profile related
 
         public async Task<Profile> GetProfile(string userId)
         {
             return await userClient.GetProfile(userId);
         }
+
+        #endregion
+
+        #region Group related
 
         public async Task<ResponseItem> LeaveGroup(string groupId)
         {
@@ -257,20 +267,27 @@ namespace LineBotKit.Client
 
         }
 
-        public async Task<Profile> GetRoomMemberProfile(string userId, string roomId)
-        {
-            return await roomClient.GetMemberProfile(userId, roomId);
-        }
-
         public async Task<MemberIdensResponse> GetGroupMemberIds(string groupId)
         {
             return await groupClient.GetMemberIds(groupId);
+        }
+
+        #endregion
+
+        #region Room related
+
+        public async Task<Profile> GetRoomMemberProfile(string userId, string roomId)
+        {
+            return await roomClient.GetMemberProfile(userId, roomId);
         }
 
         public async Task<MemberIdensResponse> GetRoomMemberIds(string roomId)
         {
             return await roomClient.GetMemberIds(roomId);
         }
+
+
+        #endregion
 
         #region RichMenu
 

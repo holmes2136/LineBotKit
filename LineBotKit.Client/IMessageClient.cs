@@ -14,7 +14,7 @@ namespace LineBotKit.Client
 
         Task<ResponseItem> PushMessage(PushMessageRequest message);
 
-        Task<ResponseItem> MulticastAsync(MultiCastMessageRequest messages);
+        Task<ResponseItem> MulticastMessage(MultiCastMessageRequest messages);
 
         Task<ResponseItem> ReplyMessage(ReplyMessageRequest message);
 

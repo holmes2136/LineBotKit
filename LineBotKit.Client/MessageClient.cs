@@ -36,7 +36,7 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="messages"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> MulticastAsync(MultiCastMessageRequest messages)
+        public async Task<ResponseItem> MulticastMessage(MultiCastMessageRequest messages)
         {
             LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, "bot/message/multicast", messages);
             request.Authorization = this.ChannelAccessToken;

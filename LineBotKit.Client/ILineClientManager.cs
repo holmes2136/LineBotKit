@@ -57,8 +57,12 @@ namespace LineBotKit.Client
         /// <param name="messageId"></param>
         /// <returns></returns>
         Stream GetMessageContent(string messageId);
-        
+
+        Task<ResponseItem> MulticastMessage(List<string> to, List<Message> messages);
+
         #endregion
+
+        #region Reply message related
 
         Task<ResponseItem> ReplyTextMessage(string to, string message);
 
@@ -68,20 +72,31 @@ namespace LineBotKit.Client
 
         Task<ResponseItem> ReplyMessage(ReplyMessageRequest reply);
 
-        Task<ResponseItem> MulticastAsync(List<string> to, List<Message> messages);
+        #endregion
+
+        #region Profile related
 
         Task<Profile> GetProfile(string userId);
+
+        #endregion
+
+        #region Group related
 
         Task<ResponseItem> LeaveGroup(string groupId);
 
         Task<Profile> GetGroupMemberProfile(string userId, string groupId);
 
-        Task<Profile> GetRoomMemberProfile(string userId, string groupId);
-
         Task<MemberIdensResponse> GetGroupMemberIds(string groupId);
+
+        #endregion
+
+        #region Room related
+
+        Task<Profile> GetRoomMemberProfile(string userId, string groupId);
 
         Task<MemberIdensResponse> GetRoomMemberIds(string roomId);
 
+        #endregion
 
         #region Rich Menu
 
