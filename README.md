@@ -38,8 +38,8 @@ The token string come from we setup above
 ```
 
 #### What functionalities do we have
-```  
-Send message related functions
+```cs  
+//Send message related functions:
 Task<ResponseItem> PushTextMessage(string to , string message);
 Task<ResponseItem> PushImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
 Task<ResponseItem> PushStickerMessage(string to, int packageId, int stickerId);
@@ -48,26 +48,26 @@ Task<ResponseItem> PushVideoMessage(string to, string originalContentUrl, string
 Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
 Task<ResponseItem> MulticastAsync(List<string> to, List<Message> messages);
 
-Reply message related functions
+//Reply message related functions:
 Task<ResponseItem> ReplyTextMessage(string to, string message);
 Task<ResponseItem> ReplyImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
 Task<ResponseItem> ReplyStickerMessage(string to, int packageId, int stickerId);
 Task<ResponseItem> ReplyLocationMessage(string to, string title, string address , decimal latitude , decimal longitude);
 Task<ResponseItem> ReplyMessage(ReplyMessageRequest reply);
 
-Room related functions
+//Room related functions:
 Task<Profile> GetRoomMemberProfile(string userId, string groupId);
 Task<MemberIdensResponse> GetRoomMemberIds(string roomId);
 
-Group related functions
+//Group related functions:
 Task<ResponseItem> LeaveGroup(string groupId);
 Task<Profile> GetGroupMemberProfile(string userId, string groupId);
 Task<MemberIdensResponse> GetGroupMemberIds(string groupId);
 
-Profile related functions
+//Profile related functions:
 Task<Profile> GetProfile(string userId);
 
-Rich menu related functions
+//Rich menu related functions:
 Task<RichMenu> Get(string richMenuId);
 Task<RichMenuIdResponse> Create(RichMenu richMenu);
 Task<ResponseItem> Delete(string richMenuId);
