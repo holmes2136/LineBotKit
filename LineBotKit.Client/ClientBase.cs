@@ -34,22 +34,22 @@ namespace LineBotKit.Client
         {
             using (var client = new LineApiClient())
             {
-                ILineApiResponse webApiResponse = await client.ExecuteAsync(request).ConfigureAwait(false);
+                ILineApiResponse apiResponse = await client.ExecuteAsync(request).ConfigureAwait(false);
 
-                if (webApiResponse == null)
+                if (apiResponse == null)
                 {
                     throw new Exception(
-                        string.Format($"The {ApiName} did not return a response.  This is not normal and need to be investigated."));
+                        string.Format($"The {ApiName} did not return a response."));
                 }
 
                 string content = string.Empty;
 
-                if (webApiResponse.Response.Content != null)
+                if (apiResponse.Response.Content != null)
                 {
-                    content = await webApiResponse.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    content = await apiResponse.Response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 }
 
-                if (webApiResponse.Response.IsSuccessStatusCode)
+                if (apiResponse.Response.IsSuccessStatusCode)
                 {
                     if (content == "{}" || content == "") {
                         return default(T);
@@ -60,20 +60,54 @@ namespace LineBotKit.Client
                     }
                 }
 
-                switch (webApiResponse.Response.StatusCode)
+                switch (apiResponse.Response.StatusCode)
                 {
                     case HttpStatusCode.BadRequest:
                         return JsonConvert.DeserializeObject<T>(content);
-                        //throw new InvalidDataException("Not Valid");
                     case HttpStatusCode.NotFound:
                         throw new NotFoundException("Not Found");
                     case HttpStatusCode.Unauthorized:
                         throw new UnauthorizedAccessException(
-                            string.Format($"An Unauthorized response was returned by the {ApiName}."));
+                            string.Format($"Unauthorized response."));
                     default:
                         throw new Exception(string.Format(CultureInfo.InvariantCulture,
-                            $"The {ApiName} returned an unknown response. Status Code: {webApiResponse.Response.StatusCode}"));
+                            $"Unknown response. Status Code: {apiResponse.Response.StatusCode}"));
                 }
+            }
+        }
+
+        protected static Stream ExecuteStreamServiceCall(LineApiRequest request)
+        {
+            using (var client = new LineApiClient())
+            {
+                ILineApiResponse apiResponse = client.Execute(request);
+
+                if (apiResponse != null)
+                {
+                    if (apiResponse.Response.IsSuccessStatusCode)
+                    {
+                        Stream content = apiResponse.Response.Content.ReadAsStreamAsync().Result;
+
+                        content.Seek(0, SeekOrigin.Begin);
+                        MemoryStream st = new MemoryStream();
+                        content.CopyTo(st);
+                        st.Seek(0, SeekOrigin.Begin);
+
+                        return st;
+                    }
+                    else if (apiResponse.Response.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        throw new InvalidDataException(apiResponse.Response.Content.ReadAsStringAsync().Result);
+                    }
+                    else if (apiResponse.Response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new UnauthorizedAccessException("Unauthorized response");
+                    }
+
+                    throw new Exception(string.Format(CultureInfo.InvariantCulture, "Unknown response. Status Code: {0}", apiResponse.Response.StatusCode));
+                }
+
+                throw new Exception("Did not return a response.");
             }
         }
     }

@@ -3,7 +3,9 @@ using LineBotKit.Common.Model.Message;
 using LineBotKit.Common.Model.RichMenu;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,6 +35,8 @@ namespace LineBotKit.Client
         {
             return this.messageClient;
         }
+
+        #region Send message realted
 
         public async Task<ResponseItem> PushTextMessage(string to, string message)
         {
@@ -151,6 +155,17 @@ namespace LineBotKit.Client
 
             return await messageClient.PushMessage(pushMessageRequest);
         }
+
+        /// <summary>
+        /// Gets image, video, and audio data sent by users.
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <returns></returns>
+        public Stream GetMessageContent(string messageId) {
+            return  messageClient.GetMessageContent(messageId);
+        }
+
+        #endregion
 
         public async Task<ResponseItem> ReplyTextMessage(string replyToken,string message)
         {
@@ -327,6 +342,25 @@ namespace LineBotKit.Client
         public async Task<RichMenuListResponse> GetRichMenuList()
         {
             return await richMenuClient.GetRichMenuList();
+        }
+
+        /// <summary>
+        /// Downloads an image associated with a rich menu.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        public  Stream GetRichMenuImage(string richMenuId) {
+            return richMenuClient.GetRichMenuImage(richMenuId);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> SetRichMenuImage(string richMenuId , Stream imageStream)
+        {
+            return await richMenuClient.SetRichMenuImage(richMenuId, imageStream);
         }
 
         #endregion

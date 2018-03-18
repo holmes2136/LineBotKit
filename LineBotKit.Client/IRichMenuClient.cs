@@ -2,6 +2,7 @@
 using LineBotKit.Common.Model.RichMenu;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,5 +59,14 @@ namespace LineBotKit.Client
         /// </summary>
         /// <returns></returns>
         Task<RichMenuListResponse> GetRichMenuList();
+
+        /// <summary>
+        /// Downloads an image associated with a rich menu.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        Stream GetRichMenuImage(string richMenuId);
+
+        Task<ResponseItem> SetRichMenuImage(string richMenuId, Stream imageStream);
     }
 }

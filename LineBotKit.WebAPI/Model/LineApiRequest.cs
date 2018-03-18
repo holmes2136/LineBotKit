@@ -114,5 +114,6 @@ namespace LineBotKit.WebAPI.Model
       
         public bool RetryTimeout { get; }
 
+        public StreamContent Content { get; set; }
     }
 }

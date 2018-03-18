@@ -103,5 +103,30 @@ namespace LineBotKit.Client
             return await ExecuteApiCallAsync<RichMenuListResponse>(request).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Downloads an image associated with a rich menu.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        public Stream GetRichMenuImage(string richMenuId)
+        {
+            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, $"bot/richmenu/{richMenuId}/content");
+            request.Authorization = this.ChannelAccessToken;
+            return ExecuteStreamServiceCall(request);
+        }
+
+        /// <summary>
+        /// Uploads and attaches an image to a rich menu.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <param name="imageStream"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> SetRichMenuImage(string richMenuId, Stream imageStream)
+        {
+            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, $"bot/richmenu/{richMenuId}/content");
+            request.Authorization = this.ChannelAccessToken;
+            request.Content = new StreamContent(imageStream);
+            return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
+        }
     }
 }

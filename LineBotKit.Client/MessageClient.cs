@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using LineBotKit.WebAPI.Model;
+using System.IO;
 
 namespace LineBotKit.Client
 {
@@ -54,6 +55,13 @@ namespace LineBotKit.Client
             LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, "bot/message/reply",message);
             request.Authorization = this.ChannelAccessToken;
             return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
+        }
+
+        public Stream GetMessageContent(string messageId)
+        {
+            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, $"bot/message/{messageId}/content");
+            request.Authorization = this.ChannelAccessToken;
+            return  ExecuteStreamServiceCall(request);
         }
     }
 }

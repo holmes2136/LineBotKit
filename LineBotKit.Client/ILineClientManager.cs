@@ -3,6 +3,7 @@ using LineBotKit.Common.Model.Message;
 using LineBotKit.Common.Model.RichMenu;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace LineBotKit.Client
 {
     public interface ILineClientManager
     {
+        #region Send message related
+
         Task<ResponseItem> PushTextMessage(string to , string message);
 
         Task<ResponseItem> PushImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
@@ -47,6 +50,15 @@ namespace LineBotKit.Client
         Task<ResponseItem> PushLocationMessage(string to, string title, string address, decimal latitude, decimal longitude);
 
         Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
+
+        /// <summary>
+        /// Gets image, video, and audio data sent by users.
+        /// </summary>
+        /// <param name="messageId"></param>
+        /// <returns></returns>
+        Stream GetMessageContent(string messageId);
+        
+        #endregion
 
         Task<ResponseItem> ReplyTextMessage(string to, string message);
 
@@ -121,6 +133,15 @@ namespace LineBotKit.Client
         /// </summary>
         /// <returns></returns>
         Task<RichMenuListResponse> GetRichMenuList();
+
+        /// <summary>
+        /// Downloads an image associated with a rich menu.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        Stream GetRichMenuImage(string richMenuId);
+
+        Task<ResponseItem> SetRichMenuImage(string richMenuId , Stream imageStream);
 
         #endregion
 
