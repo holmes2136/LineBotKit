@@ -1,8 +1,0 @@
-language: csharp
-solution: LineBotKit.sln
-install:
-  - nuget restore LineBotKit.sln
-  - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
-script:
-  - xbuild /p:Configuration=Release LineBotKit.sln
-  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./LineBotKit.Client/bin/Release/LineBotKit.Client.dll
