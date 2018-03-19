@@ -1,5 +1,7 @@
 # LineBotKit
 
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-green.svg)](https://raw.githubusercontent.com/dlemstra/line-bot-sdk-dotnet/master/License.txt)
+
 ### Summary :
 Provide functions which integrate with Line Messaging api
 
@@ -10,7 +12,7 @@ Where apply the token :https://at.line.me
 How to apply and setup instruction : https://dotblogs.com.tw/rexhuang/2017/07/02/120455
 ```
 
-#### Where can we get the library
+#### Installation
 ```
 We can download from Nuget or execute the following command in nuget package console
 
