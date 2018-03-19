@@ -1,17 +1,16 @@
 language: csharp
 solution: LineBotKit.sln
 
+mono:
+  - latest
+  - 3.12.0
+  - 3.10.0
+  
 sudo: required
 
 branches:
   only:
     - master
-
-matrix:
-  include:
-    - dotnet: 2.0.0
-      mono: none
-      dist: trusty
 
 install:
   - sudo apt-get install -y gtk-sharp2
