@@ -14,7 +14,7 @@ branches:
 
 install:
   - sudo apt-get install -y gtk-sharp2
-  - nuget restore LineBotKit.sln.sln
+  - nuget restore LineBotKit.sln
   
 script:
   - dotnet restore
