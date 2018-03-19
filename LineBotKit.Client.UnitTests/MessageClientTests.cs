@@ -139,13 +139,13 @@ namespace LineBotKit.Client.UnitTests
         }
 
         [TestMethod]
-        public void MulticastAsync_RequestTest()
+        public void MulticastMessage_RequestTest()
         {
 
-            _messagClient.Setup(x => x.MulticastAsync(It.IsAny<MultiCastMessageRequest>())).Returns(Task.FromResult<ResponseItem>(new ResponseItem()));
+            _messagClient.Setup(x => x.MulticastMessage(It.IsAny<MultiCastMessageRequest>())).Returns(Task.FromResult<ResponseItem>(new ResponseItem()));
 
             // Execute
-            Task<ResponseItem> response = _messagClient.Object.MulticastAsync(new MultiCastMessageRequest());
+            Task<ResponseItem> response = _messagClient.Object.MulticastMessage(new MultiCastMessageRequest());
 
             ResponseItem result = response.Result;
 
@@ -156,7 +156,7 @@ namespace LineBotKit.Client.UnitTests
         }
 
         [TestMethod]
-        public void MulticastAsyncRequest_JsonFormatTest()
+        public void MulticastMessageRequest_JsonFormatTest()
         {
             MultiCastMessageRequest request = new MultiCastMessageRequest()
             {
