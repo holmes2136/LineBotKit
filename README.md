@@ -1,8 +1,9 @@
 # LineBotKit
 
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-green.svg)](https://raw.githubusercontent.com/dlemstra/line-bot-sdk-dotnet/master/License.txt)
-
 [![Build status](https://ci.appveyor.com/api/projects/status/gh28puo0n0cv1re3?svg=true)](https://ci.appveyor.com/project/holmes2136/linebotkit)
+[![NuGet](https://img.shields.io/badge/nuget-v1.0.4-blue.svg)](https://www.nuget.org/packages/LineBotKit.Client/1.0.4)
+[![NuGet](https://img.shields.io/badge/swagger-valid-green.svg)](https://www.nuget.org/packages/LineBotKit.Client/1.0.4)
 
 ### Summary :
 Provide functions which integrate with Line Messaging api
