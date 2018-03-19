@@ -17,6 +17,4 @@ install:
   - nuget restore LineBotKit.sln
   
 script:
-  - dotnet restore
-  - dotnet build LineBotKit.sln -c Release
-  - dotnet test tests/LineBot.Tests/LineBotKit.Client.UnitTests.csproj --no-build -c Release
+  - xbuild /p:Configuration=Release LineBotKit.sln
