@@ -13,6 +13,10 @@ matrix:
       mono: none
       dist: trusty
 
+install:
+  - sudo apt-get install -y gtk-sharp2
+  - nuget restore LineBotKit.sln.sln
+  
 script:
   - dotnet restore
   - dotnet build LineBotKit.sln -c Release
