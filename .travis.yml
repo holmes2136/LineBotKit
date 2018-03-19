@@ -1,20 +1,8 @@
 language: csharp
 solution: LineBotKit.sln
-
-mono:
-  - latest
-  - 3.12.0
-  - 3.10.0
-  
-sudo: required
-
-branches:
-  only:
-    - master
-
 install:
-  - sudo apt-get install -y gtk-sharp2
   - nuget restore LineBotKit.sln
-  
+  - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
 script:
   - xbuild /p:Configuration=Release LineBotKit.sln
+  - mono ./testrunner/xunit.runners.1.9.2/tools/xunit.console.clr4.exe ./LineBotKit.Client/bin/Release/LineBotKit.Client.dll
