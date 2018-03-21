@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-green.svg)](https://raw.githubusercontent.com/dlemstra/line-bot-sdk-dotnet/master/License.txt)
 [![Build status](https://ci.appveyor.com/api/projects/status/gh28puo0n0cv1re3?svg=true)](https://ci.appveyor.com/project/holmes2136/linebotkit)
-[![NuGet](https://img.shields.io/badge/nuget-v1.0.3-blue.svg)](https://www.nuget.org/packages/LineBotKit.Client/1.0.4)
+[![NuGet](https://img.shields.io/badge/nuget-v1.0.5-blue.svg)](https://www.nuget.org/packages/LineBotKit.Client/1.0.5)
 [![NuGet](https://img.shields.io/badge/swagger-valid-green.svg)](https://www.nuget.org/packages/LineBotKit.Client/1.0.4)
 
 ### Summary :
@@ -80,6 +80,11 @@ Task<RichMenuIdResponse> GetRichMenuByUserId(string userId);
 Task<ResponseItem> LinkRichMenuWithUser(string userId, string richMenuId);
 Task<ResponseItem> UnLinkRichMenuWithUser(string userId);
 Task<RichMenuListResponse> GetRichMenuList();
+Task<ResponseItem> SetRichMenuImage(string richMenuId , byte[] image);
+Stream GetRichMenuImage(string richMenuId);
+
+//Other : 
+Stream GetMessageContent(string messageId);
 
 ``` 
 
