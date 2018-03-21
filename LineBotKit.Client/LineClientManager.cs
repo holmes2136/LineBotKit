@@ -20,6 +20,7 @@ namespace LineBotKit.Client
         public UserClient userClient { get; set; }
         public GroupClient groupClient { get; set; }
         public RichMenuClient richMenuClient { get; set; }
+        public AuthenticateClient authenticateClient { get; set; }
 
         public LineClientManager(string ChannelAccessToken)
         {
@@ -29,11 +30,7 @@ namespace LineBotKit.Client
             this.groupClient = new GroupClient(ChannelAccessToken);
             this.roomClient = new RoomClient(ChannelAccessToken);
             this.richMenuClient = new RichMenuClient(ChannelAccessToken);
-        }
-
-        public MessageClient GetMessageClient()
-        {
-            return this.messageClient;
+            this.authenticateClient = new AuthenticateClient();
         }
 
         #region Send message realted
@@ -381,5 +378,6 @@ namespace LineBotKit.Client
         }
 
         #endregion
+
     }
 }

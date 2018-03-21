@@ -44,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticateClient.cs" />
     <Compile Include="ClientBase.cs" />
     <Compile Include="GroupClient.cs" />
+    <Compile Include="IAuthenticateClient.cs" />
     <Compile Include="IGroupClient.cs" />
     <Compile Include="ILineClientManager.cs" />
     <Compile Include="IMessageClient.cs" />

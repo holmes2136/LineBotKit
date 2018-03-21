@@ -96,9 +96,13 @@ namespace LineBotKit.WebAPI
                 request.Headers.Add(pair.Key, pair.Value);
             }
 
-            if (webApiRequest.Body != null)
+            if (webApiRequest.Content != null)
             {
-                request.Content = webApiRequest.Content != null ? GetByteContentFromRequest(webApiRequest) : GetContentBodyFromRequest(webApiRequest);
+                request.Content = GetByteContentFromRequest(webApiRequest);
+            }
+            else if (webApiRequest.Body != null)
+            {
+                request.Content = GetByteContentFromRequest(webApiRequest) ?? GetContentBodyFromRequest(webApiRequest);
             }
 
             return request;
@@ -113,10 +117,10 @@ namespace LineBotKit.WebAPI
                 content = webApiRequest.Content;
             }
 
-            foreach (var pair in webApiRequest.Content.Headers)
-            {
-                webApiRequest.Content.Headers.ContentType = new MediaTypeHeaderValue(pair.Value.First());
-            }
+            //foreach (var pair in webApiRequest.Content.Headers)
+            //{
+            //    webApiRequest.Content.Headers.ContentType = new MediaTypeHeaderValue(pair.Value.First());
+            //}
 
             return content;
         }
