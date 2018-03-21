@@ -67,6 +67,6 @@ namespace LineBotKit.Client
         /// <returns></returns>
         Stream GetRichMenuImage(string richMenuId);
 
-        Task<ResponseItem> SetRichMenuImage(string richMenuId, Stream imageStream);
+        Task<ResponseItem> SetRichMenuImage(string richMenuId, byte[] image);
     }
 }

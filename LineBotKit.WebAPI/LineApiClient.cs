@@ -98,12 +98,28 @@ namespace LineBotKit.WebAPI
 
             if (webApiRequest.Body != null)
             {
-                request.Content = GetContentBodyFromRequest(webApiRequest);
+                request.Content = webApiRequest.Content != null ? GetByteContentFromRequest(webApiRequest) : GetContentBodyFromRequest(webApiRequest);
             }
 
             return request;
         }
 
+        private static HttpContent GetByteContentFromRequest(ILineApiRequest webApiRequest)
+        {
+            HttpContent content = null;
+
+            if (webApiRequest.Content != null)
+            {
+                content = webApiRequest.Content;
+            }
+
+            foreach (var pair in webApiRequest.Content.Headers)
+            {
+                webApiRequest.Content.Headers.ContentType = new MediaTypeHeaderValue(pair.Value.First());
+            }
+
+            return content;
+        }
 
         private static HttpContent GetContentBodyFromRequest(ILineApiRequest webApiRequest)
         {

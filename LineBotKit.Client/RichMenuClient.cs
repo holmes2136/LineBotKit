@@ -121,11 +121,12 @@ namespace LineBotKit.Client
         /// <param name="richMenuId"></param>
         /// <param name="imageStream"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> SetRichMenuImage(string richMenuId, Stream imageStream)
+        public async Task<ResponseItem> SetRichMenuImage(string richMenuId, Byte[] image)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, $"bot/richmenu/{richMenuId}/content");
+            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, $"bot/richmenu/{richMenuId}/content", image);
             request.Authorization = this.ChannelAccessToken;
-            request.Content = new StreamContent(imageStream);
+            request.Content = new ByteArrayContent(image);
+            request.Content.Headers.Add("Content-Type", "image/jpeg");
             return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
         }
     }

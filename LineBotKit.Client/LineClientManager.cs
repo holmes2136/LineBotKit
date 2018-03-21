@@ -375,9 +375,9 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="richMenuId"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> SetRichMenuImage(string richMenuId , Stream imageStream)
+        public async Task<ResponseItem> SetRichMenuImage(string richMenuId , byte[] image)
         {
-            return await richMenuClient.SetRichMenuImage(richMenuId, imageStream);
+            return await richMenuClient.SetRichMenuImage(richMenuId, image);
         }
 
         #endregion

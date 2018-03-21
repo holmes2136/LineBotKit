@@ -25,5 +25,7 @@ namespace LineBotKit.WebAPI.Model
 
         string  Authorization { get; set; }
 
+        HttpContent Content { get; set; }
+
     }
 }
