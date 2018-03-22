@@ -87,6 +87,104 @@ Stream GetMessageContent(string messageId);
 
 ``` 
 
+#### Examples :
+```cs  
+
+//multiple message with different message type
+
+var result = await lineManager.PushMessage(
+new PushMessageRequest()
+{
+  to = "User Iden",
+  messages = new List<Message>() {
+             new TextMessage("Test first message"),
+             new ImageMessage("Orginally Content Url","Preview Image Url")
+  }
+
+});
+            
+
+//buttons template message
+
+ ResponseItem temp = await lineManager.PushMessage(
+ new PushMessageRequest()
+ {
+   to = "User Iden",
+   messages = new List<Message>() {
+              new TemplateMessage(){
+                  altText = "altText",
+                  template = new ButtonsTemplate(){
+                  text = "text",
+                  thumbnailImageUrl = "Thumbnail Image Url",
+                  title = "title",
+                  actions = new List<TemplateAction>(){
+                            new UriTemplateAction(){
+                                label = "test",
+                                uri = "http://www.yahoo.com.tw"
+                            }
+                  }
+              }
+              }
+  }
+});
+
+// Confirm template message
+
+ResponseItem temp = await lineManager.PushMessage(
+new PushMessageRequest()
+{
+    to = "User Iden",
+    messages = new List<Message>() {
+            new TemplateMessage(){
+                altText = "altText",
+                template = new ConfirmTemplate(){
+                    text = "text",
+                    actions = new List<TemplateAction>(){
+                        new MessageTemplateAction(){
+                            label = "test",
+                            text = "text"
+                        },
+                            new MessageTemplateAction(){
+                            label = "test",
+                            text = "text"
+                        }
+                    }
+                }
+            }
+    }
+});
+
+//Carousel template message
+
+ ResponseItem temp = await lineManager.PushMessage(
+ new PushMessageRequest()
+ {
+     to = "User Iden",
+     messages = new List<Message>() {
+          new TemplateMessage(){
+               altText = "altText",
+               template = new CarouselTemplate(){
+                    columns = new List<TemplateColumn>(){
+                         new TemplateColumn(){
+                              title = "title",
+                              text = "text",
+                              ThumbnailImageUrl = "Thumbnail image url",
+                              actions = new  List<TemplateAction>(){
+                                     new MessageTemplateAction(){
+                                          label = "label",
+                                          text = "text"
+                                     }
+                              }
+                         }
+                    }
+               }
+          }
+     }
+ });
+
+
+```
+
 ### Quick glimpse what the result looks like
 ``` 
 1. Open the application which under "Simulator"  file
