@@ -1,9 +1,9 @@
-﻿using LineBotKit.Common.Model.TemplateActions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LineBotKit.Common.Model.Actions;
 
 namespace LineBotKit.Common.Model.Template
 {
@@ -11,11 +11,11 @@ namespace LineBotKit.Common.Model.Template
     {
         public new string type = "confirm";
         public string text { get; set; }
-        public List<TemplateAction> actions { get; set; }
+        public List<Actions.Action> actions { get; set; }
 
-        public ConfirmTemplate(string text = null, List<TemplateAction> actions = null)
+        public ConfirmTemplate(string text = null, List<Actions.Action> actions = null)
         {
-            this.actions = (actions ?? new List<TemplateAction>());
+            this.actions = (actions ?? new List<Actions.Action>());
         }
     }
 }

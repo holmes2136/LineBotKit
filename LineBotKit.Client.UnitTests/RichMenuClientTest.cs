@@ -1,4 +1,5 @@
-﻿using LineBotKit.Common.Model.RichMenu;
+﻿using LineBotKit.Common.Model.Actions;
+using LineBotKit.Common.Model.RichMenu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
@@ -47,9 +48,9 @@ namespace LineBotKit.Client.UnitTests
                 selected = false,
                 areas = new List<Area>() {
                     new Area(){
-                         action = new Common.Model.RichMenu.Action(){
+                         action = new PostBackAction(){
                               data = "i=2&c=3",
-                              type = "postback"
+                              displayText = "display text"
                          },
                          bounds = new Bounds(){
                               height = 100,
@@ -61,7 +62,7 @@ namespace LineBotKit.Client.UnitTests
                 }
             };
             // Verify
-            Assert.AreEqual<string>(JsonConvert.SerializeObject(richMenu, Formatting.None, jsonSettings), "{\"richMenuId\":\"\",\"size\":{\"width\":100,\"height\":100},\"selected\":false,\"name\":\"test\",\"chatBarText\":\"test\",\"areas\":[{\"bounds\":{\"x\":2,\"y\":3,\"width\":100,\"height\":100},\"action\":{\"type\":\"postback\",\"data\":\"i=2&c=3\"}}]}");
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(richMenu, Formatting.None, jsonSettings), "{\"richMenuId\":\"\",\"size\":{\"width\":100,\"height\":100},\"selected\":false,\"name\":\"test\",\"chatBarText\":\"test\",\"areas\":[{\"bounds\":{\"x\":2,\"y\":3,\"width\":100,\"height\":100},\"action\":{\"data\":\"i=2&c=3\",\"displayText\":\"display text\",\"type\":\"postback\"}}]}");
         }
     }
 }

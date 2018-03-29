@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LineBotKit.Common.Model.TemplateActions
+namespace LineBotKit.Common.Model.Actions
 {
     public class TemplateColumn
     {
@@ -14,10 +14,10 @@ namespace LineBotKit.Common.Model.TemplateActions
 
         public string ThumbnailImageUrl { get; set; }
 
-        public List<TemplateAction> actions { get; set; }
+        public List<Action> actions { get; set; }
 
         public TemplateColumn() {
-            this.actions = new List<TemplateAction>();
+            this.actions = new List<Action>();
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LineBotKit.Common.Model.TemplateActions
+namespace LineBotKit.Common.Model.Actions
 {
-    public class DatetimePickerTemplateAction : TemplateAction
+    public class DatetimePickerAction : Action
     {
         public string data { get; set; }
 
@@ -18,8 +18,8 @@ namespace LineBotKit.Common.Model.TemplateActions
 
         public string min { get; set; }
 
-        public DatetimePickerTemplateAction() {
-            this.type = TemplateActionType.Datetimepicker;
+        public DatetimePickerAction() {
+            this.type = ActionType.Datetimepicker;
         }
     }
 }

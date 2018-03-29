@@ -1,4 +1,4 @@
-﻿using LineBotKit.Common.Model.TemplateActions;
+﻿using LineBotKit.Common.Model.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

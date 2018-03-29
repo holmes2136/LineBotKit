@@ -8,7 +8,7 @@ namespace LineBotKit.Common.Model.RichMenu
 {
     public class Action
     {
-        public string type { get; set; }
+        internal string type { get; set; }
         public string data { get; set; }
     }
 }

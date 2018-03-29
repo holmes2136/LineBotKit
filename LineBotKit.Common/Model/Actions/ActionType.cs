@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LineBotKit.Common.Model.TemplateActions
+namespace LineBotKit.Common.Model.Actions
 {
-    public enum TemplateActionType
+    public enum ActionType
     {
         Postback,
         Uri,
