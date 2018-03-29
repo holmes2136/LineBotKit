@@ -9,7 +9,7 @@
 Provide functions which integrate with Line Messaging api
 
 #### Pre-prepare
-Developer need to apply line api token first , you can go to the following link :
+Developer need to apply line api token first , you can reference the following link :
 ```
 Where apply the token :https://at.line.me
 How to apply and setup instruction : https://dotblogs.com.tw/rexhuang/2017/07/02/120455
@@ -17,7 +17,6 @@ How to apply and setup instruction : https://dotblogs.com.tw/rexhuang/2017/07/02
 
 #### Installation
 ```
-We can download from Nuget or execute the following command in nuget package console
 
 Install-Package LineBotKit.Client -Version 1.0.0
 
@@ -26,13 +25,13 @@ Install-Package LineBotKit.Client -Version 1.0.0
 #### How to initial line bot :
 The token string come from we setup above
 ```
-   LineClientManager clientManager = new LineClientManager("token");
+   ILineClientManager clientManager = new LineClientManager("token");
 ```
 
 #### Easy sample for send text message :
 The token string come from we setup above
 ```
-   LineClientManager clientManager = new LineClientManager("token");
+   ILineClientManager clientManager = new LineClientManager("token");
    clientManager.PushTextMessage("user id","message");
 ```
 
@@ -52,7 +51,7 @@ Task<ResponseItem> PushAudioMessage(string to, string originalContentUrl, int du
 Task<ResponseItem> PushVideoMessage(string to, string originalContentUrl, string previewImageUrl);
 Task<ResponseItem> PushLocationMessage(string to, string title, string address , decimal latitude , decimal longitude);
 Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
-Task<ResponseItem> MulticastAsync(List<string> to, List<Message> messages);
+Task<ResponseItem> MulticastMessage(List<string> to, List<Message> messages);
 
 //Reply message related functions:
 Task<ResponseItem> ReplyTextMessage(string to, string message);
@@ -73,9 +72,9 @@ Task<MemberIdensResponse> GetGroupMemberIds(string groupId);
 Task<Profile> GetProfile(string userId);
 
 //Rich menu related functions:
-Task<RichMenu> Get(string richMenuId);
-Task<RichMenuIdResponse> Create(RichMenu richMenu);
-Task<ResponseItem> Delete(string richMenuId);
+Task<RichMenu> GetRichMenu(string richMenuId);
+Task<RichMenuIdResponse> CreateRichMenu(RichMenu richMenu);
+Task<ResponseItem> DeleteRichMenu(string richMenuId);
 Task<RichMenuIdResponse> GetRichMenuByUserId(string userId);
 Task<ResponseItem> LinkRichMenuWithUser(string userId, string richMenuId);
 Task<ResponseItem> UnLinkRichMenuWithUser(string userId);
@@ -83,10 +82,108 @@ Task<RichMenuListResponse> GetRichMenuList();
 Task<ResponseItem> SetRichMenuImage(string richMenuId , byte[] image);
 Stream GetRichMenuImage(string richMenuId);
 
-//Other : 
+//Others : 
 Stream GetMessageContent(string messageId);
 
 ``` 
+
+#### Examples :
+```cs  
+
+//multiple message with different message type
+
+var result = await lineManager.PushMessage(
+new PushMessageRequest()
+{
+  to = "User Iden",
+  messages = new List<Message>() {
+             new TextMessage("Test first message"),
+             new ImageMessage("Orginally Content Url","Preview Image Url")
+  }
+
+});
+            
+
+//buttons template message
+
+ ResponseItem temp = await lineManager.PushMessage(
+ new PushMessageRequest()
+ {
+   to = "User Iden",
+   messages = new List<Message>() {
+              new TemplateMessage(){
+                  altText = "altText",
+                  template = new ButtonsTemplate(){
+                  text = "text",
+                  thumbnailImageUrl = "Thumbnail Image Url",
+                  title = "title",
+                  actions = new List<TemplateAction>(){
+                            new UriTemplateAction(){
+                                label = "test",
+                                uri = "http://www.yahoo.com.tw"
+                            }
+                  }
+              }
+              }
+  }
+});
+
+// Confirm template message
+
+ResponseItem temp = await lineManager.PushMessage(
+new PushMessageRequest()
+{
+    to = "User Iden",
+    messages = new List<Message>() {
+            new TemplateMessage(){
+                altText = "altText",
+                template = new ConfirmTemplate(){
+                    text = "text",
+                    actions = new List<TemplateAction>(){
+                        new MessageTemplateAction(){
+                            label = "test",
+                            text = "text"
+                        },
+                            new MessageTemplateAction(){
+                            label = "test",
+                            text = "text"
+                        }
+                    }
+                }
+            }
+    }
+});
+
+//Carousel template message
+
+ ResponseItem temp = await lineManager.PushMessage(
+ new PushMessageRequest()
+ {
+     to = "User Iden",
+     messages = new List<Message>() {
+          new TemplateMessage(){
+               altText = "altText",
+               template = new CarouselTemplate(){
+                    columns = new List<TemplateColumn>(){
+                         new TemplateColumn(){
+                              title = "title",
+                              text = "text",
+                              ThumbnailImageUrl = "Thumbnail image url",
+                              actions = new  List<TemplateAction>(){
+                                     new MessageTemplateAction(){
+                                          label = "label",
+                                          text = "text"
+                                     }
+                              }
+                         }
+                    }
+               }
+          }
+     }
+ });
+
+
+```
 
 ### Quick glimpse what the result looks like
 ``` 
