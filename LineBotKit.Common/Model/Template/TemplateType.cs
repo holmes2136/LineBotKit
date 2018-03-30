@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace LineBotKit.Common.Model.Template
 {
-    public abstract class Template
+    public enum TemplateType
     {
-        public  TemplateType type { get; internal set; }
-
-        public Template() {
-
-        }
+        Buttons,
+        Carousel,
+        Confirm,
+        Image_carousel
     }
 }

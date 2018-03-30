@@ -9,7 +9,11 @@ namespace LineBotKit.Common.Model.Template
 {
     public class CarouselTemplate:Template
     {
-        public new string type = "carousel";
         public List<TemplateColumn> columns { get; set; }
+
+        public CarouselTemplate() {
+            this.type = TemplateType.Carousel;
+        }
+               
     }
 }

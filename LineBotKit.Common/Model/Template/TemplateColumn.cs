@@ -14,6 +14,8 @@ namespace LineBotKit.Common.Model.Actions
 
         public string ThumbnailImageUrl { get; set; }
 
+        public Action defaultAction { get; set; }
+
         public List<Action> actions { get; set; }
 
         public TemplateColumn() {

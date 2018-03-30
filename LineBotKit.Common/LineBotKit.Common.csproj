@@ -52,7 +52,6 @@
     <Compile Include="Model\Message\AudioMessage.cs" />
     <Compile Include="Model\Message\LocationMessage.cs" />
     <Compile Include="Model\Message\VideoMessage.cs" />
-    <Compile Include="Model\RichMenu\Action.cs" />
     <Compile Include="Model\RichMenu\Area.cs" />
     <Compile Include="Model\RichMenu\Bounds.cs" />
     <Compile Include="Model\RichMenu\RichMenuIdResponse.cs" />
@@ -79,11 +78,12 @@
     <Compile Include="Model\Message\StickerMessage.cs" />
     <Compile Include="Model\Template\Template.cs" />
     <Compile Include="Model\Actions\Action.cs" />
-    <Compile Include="Model\Actions\TemplateColumn.cs" />
+    <Compile Include="Model\Template\TemplateColumn.cs" />
     <Compile Include="Model\Actions\ActionType.cs" />
     <Compile Include="Model\Message\TemplateMessage.cs" />
     <Compile Include="Model\Actions\UriAction.cs" />
     <Compile Include="Model\Message\TextMessage.cs" />
+    <Compile Include="Model\Template\TemplateType.cs" />
     <Compile Include="Model\WebHook\Event.cs" />
     <Compile Include="Model\WebHook\LineHookResponse.cs" />
     <Compile Include="Model\WebHook\Message.cs" />

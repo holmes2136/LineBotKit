@@ -13,7 +13,7 @@ namespace LineBotKit.Common.Model.Actions
         public ActionType type
         {
             get;
-            set;
+            internal set;
         }
     }
 }
