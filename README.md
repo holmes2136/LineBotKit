@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-green.svg)](https://raw.githubusercontent.com/dlemstra/line-bot-sdk-dotnet/master/License.txt)
 [![Build status](https://ci.appveyor.com/api/projects/status/gh28puo0n0cv1re3?svg=true)](https://ci.appveyor.com/project/holmes2136/linebotkit)
-[![NuGet](https://img.shields.io/badge/nuget-v1.0.5-blue.svg)](https://www.nuget.org/packages/LineBotKit.Client/1.0.5)
+[![NuGet](https://img.shields.io/badge/nuget-v1.0.6-blue.svg)](https://www.nuget.org/packages/LineBotKit.Client/1.0.6)
 [![NuGet](https://img.shields.io/badge/swagger-valid-green.svg)](https://www.nuget.org/packages/LineBotKit.Client/1.0.4)
 
 ### Summary :
@@ -92,7 +92,7 @@ Stream GetMessageContent(string messageId);
 
 //multiple message with different message type
 
-var result = await lineManager.PushMessage(
+var response = await lineManager.PushMessage(
 new PushMessageRequest()
 {
   to = "User Iden",
@@ -106,7 +106,7 @@ new PushMessageRequest()
 
 //buttons template message
 
- ResponseItem temp = await lineManager.PushMessage(
+ ResponseItem response = await lineManager.PushMessage(
  new PushMessageRequest()
  {
    to = "User Iden",
@@ -118,7 +118,7 @@ new PushMessageRequest()
                   thumbnailImageUrl = "Thumbnail Image Url",
                   title = "title",
                   actions = new List<TemplateAction>(){
-                            new UriTemplateAction(){
+                            new UriAction(){
                                 label = "test",
                                 uri = "http://www.yahoo.com.tw"
                             }
@@ -130,7 +130,7 @@ new PushMessageRequest()
 
 // Confirm template message
 
-ResponseItem temp = await lineManager.PushMessage(
+ResponseItem response = await lineManager.PushMessage(
 new PushMessageRequest()
 {
     to = "User Iden",
@@ -140,11 +140,11 @@ new PushMessageRequest()
                 template = new ConfirmTemplate(){
                     text = "text",
                     actions = new List<TemplateAction>(){
-                        new MessageTemplateAction(){
+                        new MessageAction(){
                             label = "test",
                             text = "text"
                         },
-                            new MessageTemplateAction(){
+                            new MessageAction(){
                             label = "test",
                             text = "text"
                         }
@@ -156,7 +156,7 @@ new PushMessageRequest()
 
 //Carousel template message
 
- ResponseItem temp = await lineManager.PushMessage(
+ ResponseItem response = await lineManager.PushMessage(
  new PushMessageRequest()
  {
      to = "User Iden",
@@ -170,7 +170,7 @@ new PushMessageRequest()
                               text = "text",
                               ThumbnailImageUrl = "Thumbnail image url",
                               actions = new  List<TemplateAction>(){
-                                     new MessageTemplateAction(){
+                                     new MessageAction(){
                                           label = "label",
                                           text = "text"
                                      }
