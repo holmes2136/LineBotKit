@@ -1,0 +1,30 @@
+{
+  "name": "LineBotKit.Client",
+  "version": "1.0.7",
+  "main": "",
+  "repository": "",
+  "contributors": [
+    "Holmes Jhu <holmes2136@gmail.com>",
+  ],
+  "license": "Apache-2.0",
+  "scripts": {
+  },
+  "dependencies": {
+    "JamesNK/Newtonsoft.Json": "^9.0.1",
+  },
+  "devDependencies": {
+    "Newtonsoft.Json": "^9.0.1",
+  },
+  "config": {
+  
+  },
+  "browserslist": [
+
+  ],
+  "optionalDependencies": {
+
+  },
+  "nyc": {
+
+  }
+}
