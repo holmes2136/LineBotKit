@@ -18,6 +18,11 @@ namespace LineBotKit.Common.Model.Actions
 
         public List<Action> actions { get; set; }
 
+        /// <summary>
+        /// Background color of image.
+        /// </summary>
+        public string imageBackgroundColor { get; set; }
+
         public TemplateColumn() {
             this.actions = new List<Action>();
         }

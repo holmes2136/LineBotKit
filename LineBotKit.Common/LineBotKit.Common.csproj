@@ -46,7 +46,9 @@
   <ItemGroup>
     <Compile Include="Model\AccessTokenResponse.cs" />
     <Compile Include="Model\BaseSize.cs" />
+    <Compile Include="Model\ImageAspectRatioType.cs" />
     <Compile Include="Model\ImageMapChild.cs" />
+    <Compile Include="Model\ImageSizeType.cs" />
     <Compile Include="Model\IssueTokenRequest.cs" />
     <Compile Include="Model\MemberIdensResponse.cs" />
     <Compile Include="Model\Message\AudioMessage.cs" />

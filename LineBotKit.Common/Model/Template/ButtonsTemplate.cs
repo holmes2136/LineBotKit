@@ -13,6 +13,21 @@ namespace LineBotKit.Common.Model.Template
         public string title { get; set; }
         public string text { get; set; }
         public Actions.Action defaultAction { get; set; }
+
+        /// <summary>
+        /// Aspect ratio of the image
+        /// </summary>
+        public ImageAspectRatioType imageAspectRatio { get; set; }
+
+        /// <summary>
+        /// Size of the image
+        /// </summary>
+        public ImageSizeType imageSize { get; set; }
+
+        /// <summary>
+        /// Background color of image
+        /// </summary>
+        public string imageBackgroundColor { get; set; }
         public List<Actions.Action> actions { get; set; }
 
         public ButtonsTemplate(string thumbnailImageUrl = null, string title = null, string text = null, List<Actions.Action> actions = null) {
