@@ -8,8 +8,13 @@ namespace LineBotKit.Common.Model
 {
     public class BaseSize
     {
-        public string height { get; set; }
+        public int height { get; set; }
 
-        public string width { get; set; }
+        public int width { get; set; }
+
+        public BaseSize(int height , int width) {
+            this.height = height;
+            this.width = width;
+        }
     }
 }

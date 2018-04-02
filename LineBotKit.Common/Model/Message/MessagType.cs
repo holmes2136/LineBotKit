@@ -14,7 +14,7 @@ namespace LineBotKit.Common.Model.Message
         Audio,
         Location,
         Sticker,
-        ImageMap,
+        Imagemap,
         Template
     }
 }

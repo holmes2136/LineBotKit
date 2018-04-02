@@ -143,6 +143,23 @@ namespace LineBotKit.Client
             return await messageClient.PushMessage(pushMessageRequest);
         }
 
+        /// <summary>
+        /// Send image map messages
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="imageMapMessages"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> PushImageMapMessage(string to, ImageMapMessage imageMapMessages)
+        {
+            var pushMessageRequest = new PushMessageRequest()
+            {
+                to = to,
+                messages = new List<Message>() { imageMapMessages }
+            };
+            
+            return await messageClient.PushMessage(pushMessageRequest);
+        }
+
         public async Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest)
         {
             if (pushMessageRequest.messages.Count > 5)

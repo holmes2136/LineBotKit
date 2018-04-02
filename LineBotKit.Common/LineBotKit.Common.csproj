@@ -45,9 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\AccessTokenResponse.cs" />
+    <Compile Include="Model\Actions\ImageMapAction.cs" />
+    <Compile Include="Model\Actions\ImageMapMessageAction.cs" />
+    <Compile Include="Model\Actions\ImageMapUriAction.cs" />
+    <Compile Include="Model\Area.cs" />
     <Compile Include="Model\BaseSize.cs" />
     <Compile Include="Model\ImageAspectRatioType.cs" />
-    <Compile Include="Model\ImageMapChild.cs" />
     <Compile Include="Model\ImageSizeType.cs" />
     <Compile Include="Model\IssueTokenRequest.cs" />
     <Compile Include="Model\MemberIdensResponse.cs" />
