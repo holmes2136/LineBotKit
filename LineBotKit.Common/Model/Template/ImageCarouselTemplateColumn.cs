@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace LineBotKit.Common.Model.Template
 {
-    public abstract class Template
+    public class ImageCarouselTemplateColumn
     {
-        public  virtual TemplateType type { get; internal set; }
+        public string imageUrl { get; set; }
+        public Actions.Action action { get; set; }
 
-        public Template() {
-
+        public ImageCarouselTemplateColumn() {
         }
     }
 }

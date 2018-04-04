@@ -81,9 +81,11 @@
     <Compile Include="Model\ResponseItem.cs" />
     <Compile Include="Model\ResponseItemDetail.cs" />
     <Compile Include="Model\Message\StickerMessage.cs" />
+    <Compile Include="Model\Template\ImageCarouselTemplate.cs" />
+    <Compile Include="Model\Template\ImageCarouselTemplateColumn.cs" />
     <Compile Include="Model\Template\Template.cs" />
     <Compile Include="Model\Actions\Action.cs" />
-    <Compile Include="Model\Template\TemplateColumn.cs" />
+    <Compile Include="Model\Template\CarouselTemplateColumn.cs" />
     <Compile Include="Model\Actions\ActionType.cs" />
     <Compile Include="Model\Message\TemplateMessage.cs" />
     <Compile Include="Model\Actions\UriAction.cs" />

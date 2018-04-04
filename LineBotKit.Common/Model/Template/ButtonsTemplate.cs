@@ -13,6 +13,7 @@ namespace LineBotKit.Common.Model.Template
         public string title { get; set; }
         public string text { get; set; }
         public Actions.Action defaultAction { get; set; }
+        public override TemplateType type => TemplateType.Buttons;
 
         /// <summary>
         /// Aspect ratio of the image
@@ -31,7 +32,6 @@ namespace LineBotKit.Common.Model.Template
         public List<Actions.Action> actions { get; set; }
 
         public ButtonsTemplate(string thumbnailImageUrl = null, string title = null, string text = null, List<Actions.Action> actions = null) {
-            this.type = TemplateType.Buttons;
             this.actions = (actions ?? new List<Actions.Action>());
         }
     }

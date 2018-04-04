@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LineBotKit.Common.Model.Actions
 {
-    public class TemplateColumn
+    public class CarouselTemplateColumn
     {
         public string title { get; set; }
 
@@ -23,7 +23,7 @@ namespace LineBotKit.Common.Model.Actions
         /// </summary>
         public string imageBackgroundColor { get; set; }
 
-        public TemplateColumn() {
+        public CarouselTemplateColumn() {
             this.actions = new List<Action>();
         }
     }

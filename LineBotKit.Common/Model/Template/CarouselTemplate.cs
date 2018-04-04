@@ -9,7 +9,8 @@ namespace LineBotKit.Common.Model.Template
 {
     public class CarouselTemplate : Template
     {
-        public List<TemplateColumn> columns { get; set; }
+        public IList<CarouselTemplateColumn> columns { get; set; }
+        public override TemplateType type => TemplateType.Carousel;
 
         /// <summary>
         /// Aspect ratio of the image
@@ -21,7 +22,6 @@ namespace LineBotKit.Common.Model.Template
         /// </summary>
         public ImageSizeType imageSize { get; set; }
         public CarouselTemplate() {
-            this.type = TemplateType.Carousel;
         }
                
     }
