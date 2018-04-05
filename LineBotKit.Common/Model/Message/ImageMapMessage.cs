@@ -80,7 +80,7 @@ namespace LineBotKit.Common.Model.Message
 
             set
             {
-                _baseSize = value == null ? throw new ArgumentException("The base size porperty can't be null") : value;
+                _baseSize = value ?? throw new ArgumentException("The base size porperty can't be null");
             }
         }
 
