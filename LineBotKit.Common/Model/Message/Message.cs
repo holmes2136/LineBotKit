@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace LineBotKit.Common.Model.Message
 {
-    public class Message
+    public abstract class Message
     {
         public Message() {
 
         }
 
-        public MessageType type { get; internal set; }
+        public virtual MessageType type { get; internal set; }
 
 
     }

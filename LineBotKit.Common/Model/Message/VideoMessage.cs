@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LineBotKit.Common.Extensions;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +10,48 @@ namespace LineBotKit.Common.Model.Message
 {
     public class VideoMessage:Message
     {
-        public string originalContentUrl { get; set; }
-        public string previewImageUrl { get; set; }
+        public override MessageType type => MessageType.Video;
+        private Uri _originalContentUrl;
+        private Uri _previewImageUrl;
 
-        public VideoMessage(string originalContentUrl, string previewImageUrl)
+        public VideoMessage(Uri originalContentUrl, Uri previewImageUrl)
         {
-            this.type = MessageType.Video;
-            this.originalContentUrl = originalContentUrl;
-            this.previewImageUrl = previewImageUrl;
+            this.OriginalContentUrl = originalContentUrl;
+            this.PreviewImageUrl = previewImageUrl;
+        }
+
+        /// <summary>
+        /// originalContentUrl
+        /// </summary>
+        [JsonProperty("originalContentUrl")]
+        public Uri OriginalContentUrl
+        {
+            get
+            {
+                return _originalContentUrl;
+            }
+
+            set
+            {
+                _originalContentUrl = value.ValidateUrl();
+            }
+        }
+
+        /// <summary>
+        /// previewImageUrl
+        /// </summary>
+        [JsonProperty("previewImageUrl")]
+        public Uri PreviewImageUrl
+        {
+            get
+            {
+                return _previewImageUrl;
+            }
+
+            set
+            {
+                _previewImageUrl = value.ValidateUrl();
+            }
         }
     }
 }

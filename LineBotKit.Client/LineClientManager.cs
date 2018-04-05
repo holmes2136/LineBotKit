@@ -56,7 +56,7 @@ namespace LineBotKit.Client
             {
                 to = to,
                 messages = new List<Message>() {
-                    new ImageMessage(imgContentUrl.AbsoluteUri,imgePreviewUrl.AbsoluteUri)
+                    new ImageMessage(imgContentUrl,imgePreviewUrl)
                 }
             };
 
@@ -91,7 +91,7 @@ namespace LineBotKit.Client
             {
                 to = to,
                 messages = new List<Message>() {
-                      new AudioMessage(_originalContentUrl.AbsoluteUri,duration)
+                      new AudioMessage(_originalContentUrl,duration)
                 }
             };
 
@@ -114,7 +114,7 @@ namespace LineBotKit.Client
             {
                 to = to,
                 messages = new List<Message>() {
-                      new VideoMessage(_originalContentUrl.AbsoluteUri,_previewImageUrl.AbsoluteUri)
+                      new VideoMessage(_originalContentUrl,_previewImageUrl)
                 }
             };
 
@@ -229,7 +229,7 @@ namespace LineBotKit.Client
                 replyToken = replyToken,
                 messages = new List<Message>()
                 {
-                   new ImageMessage(imgContentUrl.AbsoluteUri,imgePreviewUrl.AbsoluteUri)
+                   new ImageMessage(imgContentUrl,imgePreviewUrl)
                 }
             };
 

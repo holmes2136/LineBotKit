@@ -10,11 +10,36 @@ namespace LineBotKit.Common.Model.Message
 {
     public class TextMessage:Message
     {
-        public string text { get; set; }
+        public override MessageType type => MessageType.Text;
+        private string _text;
 
-        public TextMessage(string text) {
-            this.type = MessageType.Text;
-            this.text = text;
+        public TextMessage(string text)
+        {
+            this.Text = text;
+        }
+
+        /// <summary>
+        /// text
+        /// </summary>
+        [JsonProperty("text")]
+        public string Text
+        {
+            get
+            {
+                return _text;
+            }
+
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new InvalidOperationException("The text property can't be null or whitespace");
+                }
+                else if (value.Length > 2000) {
+                    throw new ArgumentException("The text property can't be bigger than 2000 characters");
+                }
+                _text = value;
+            }
         }
     }
 }
