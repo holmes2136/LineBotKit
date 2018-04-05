@@ -205,6 +205,12 @@ namespace LineBotKit.Client
 
         #region Reply related
 
+        /// <summary>
+        /// Reply text message
+        /// </summary>
+        /// <param name="replyToken"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public async Task<ResponseItem> ReplyTextMessage(string replyToken, string message)
         {
             var replyMessageRequest = new ReplyMessageRequest()
@@ -219,6 +225,13 @@ namespace LineBotKit.Client
             return await messageClient.ReplyMessage(replyMessageRequest);
         }
 
+        /// <summary>
+        /// Reply image message
+        /// </summary>
+        /// <param name="replyToken"></param>
+        /// <param name="imageContentUrl"></param>
+        /// <param name="imagePreviewUr"></param>
+        /// <returns></returns>
         public async Task<ResponseItem> ReplyImageMessage(string replyToken, string imageContentUrl, string imagePreviewUr)
         {
             Uri imgContentUrl = new Uri(imageContentUrl);
@@ -236,6 +249,13 @@ namespace LineBotKit.Client
             return await messageClient.ReplyMessage(replyMessageRequest);
         }
 
+        /// <summary>
+        /// Reply sticker message
+        /// </summary>
+        /// <param name="replyToken"></param>
+        /// <param name="packageId"></param>
+        /// <param name="stickerId"></param>
+        /// <returns></returns>
         public async Task<ResponseItem> ReplyStickerMessage(string replyToken, int packageId, int stickerId)
         {
 
@@ -246,6 +266,94 @@ namespace LineBotKit.Client
                 {
                    new StickerMessage(packageId,stickerId)
                 }
+            };
+
+            return await messageClient.ReplyMessage(replyMessageRequest);
+        }
+
+        /// <summary>
+        /// Reply audio message
+        /// </summary>
+        /// <param name="replyToken"></param>
+        /// <param name="to"></param>
+        /// <param name="originalContentUrl"></param>
+        /// <param name="duration"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> ReplyAudioMessage(string replyToken , string to, string originalContentUrl, int duration)
+        {
+            Uri _originalContentUrl = new Uri(originalContentUrl);
+
+            var replyMessageRequest = new ReplyMessageRequest()
+            {
+                replyToken = replyToken,
+                messages = new List<Message>() {
+                      new AudioMessage(_originalContentUrl,duration)
+                }
+            };
+
+            return await messageClient.ReplyMessage(replyMessageRequest);
+        }
+
+        /// <summary>
+        /// Reply video message
+        /// </summary>
+        /// <param name="replyToken"></param>
+        /// <param name="to"></param>
+        /// <param name="originalContentUrl"></param>
+        /// <param name="previewImageUrl"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> ReplyVideoMessage(string replyToken , string to, string originalContentUrl, string previewImageUrl)
+        {
+            Uri _originalContentUrl = new Uri(originalContentUrl);
+            Uri _previewImageUrl = new Uri(previewImageUrl);
+
+            var replyMessageRequest = new ReplyMessageRequest()
+            {
+                replyToken = replyToken,
+                messages = new List<Message>() {
+                      new VideoMessage(_originalContentUrl,_previewImageUrl)
+                }
+            };
+
+            return await messageClient.ReplyMessage(replyMessageRequest);
+        }
+
+        /// <summary>
+        /// Reply location message
+        /// </summary>
+        /// <param name="replyToken"></param>
+        /// <param name="to"></param>
+        /// <param name="title"></param>
+        /// <param name="address"></param>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> ReplyLocationMessage(string replyToken , string to, string title, string address, decimal latitude, decimal longitude)
+        {
+            var replyMessageRequest = new ReplyMessageRequest()
+            {
+                replyToken = replyToken,
+                messages = new List<Message>() {
+                      new LocationMessage(title,address,latitude,longitude)
+                }
+            };
+
+            return await messageClient.ReplyMessage(replyMessageRequest);
+        }
+
+        /// <summary>
+        /// Reply image message
+        /// </summary>
+        /// <param name="replyToken"></param>
+        /// <param name="to"></param>
+        /// <param name="imageMapMessages"></param>
+        /// <returns></returns>
+        public async Task<ResponseItem> ReplyImageMapMessage(string replyToken , string to, ImageMapMessage imageMapMessages)
+        {
+            var replyMessageRequest = new ReplyMessageRequest()
+            {
+                replyToken = replyToken,
+                messages = new List<Message>() { imageMapMessages }
             };
 
             return await messageClient.ReplyMessage(replyMessageRequest);
