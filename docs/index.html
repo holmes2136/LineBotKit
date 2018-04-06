@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
   <head>
@@ -30,31 +30,168 @@
 
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a id="how-liaraddress-works" class="anchor" href="#how-liaraddress-works" aria-hidden="true"><span class="octicon octicon-link"></span></a></h3>
+        <section id="main_content" class="inner">
+            <h3>
+                <a id="how-liaraddress-works" class="anchor" href="#how-liaraddress-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+            </h3>
 
-<p></p>
+            <p>Send multiple message with different message type</p>
 
 <pre>
-<code>
+            <code>
+        LineClientManager lineManager = new LineClientManager(this.token);
 
-
-</code>
+        var response = await lineManager.PushMessage(
+        new PushMessageRequest()
+        {
+        to = "User Iden",
+        messages = new List<Message>(){
+            new TextMessage("Test first message"),
+            new ImageMessage(new Uri("https://OrginallyContentUrl.jpg"),new Uri("https://PreviewImageUrl.jpg"))
+            }
+        });
+    </code>
 </pre>
 
-<p></p>
-
-
-<h3>
-
-
+            <p>Send buttons template message</p>
 <pre><code>
+    LineClientManager lineManager = new LineClientManager(this.token);
+
+    var template = new ButtonsTemplate()
+    {
+        text = "text",
+        imageAspectRatio = ImageAspectRatioType.Square,
+        imageBackgroundColor = "#cccccc",
+        imageSize = ImageSizeType.Contain,
+        thumbnailImageUrl = "https://thumbnailImageUrl.jpg",
+        title = "title",
+        defaultAction = new UriAction()
+        {
+            label = "label",
+            uri = "http://www.yahoo.com.tw"
+        },
+        actions = new List<LineBotKit.Common.Model.Actions.Action>(){
+            new DatetimePickerAction(){
+                    label = "test",
+                    data = "abc=aaa&def=111",
+                    mode = DateTimePickerMode.Time
+            }
+        }
+    };
+
+    ResponseItem response = await lineManager.PushMessage(
+    new PushMessageRequest(){
+        to = "User Iden",
+        messages = new List<Message>(){
+                new TemplateMessage("altText",template)
+            }
+    });
 
 </code></pre>
 
-<p></p>
-      </section>
+
+            <p>Send confirm template message</p>
+<pre><code>
+    LineClientManager lineManager = new LineClientManager(this.token);
+
+    var template = new ConfirmTemplate()
+    {
+        text = "text",
+        actions = new List<LineBotKit.Common.Model.Actions.Action>(){
+            new MessageAction(){
+                label = "test",
+                text = "text"
+            },
+            new MessageAction(){
+            label = "test",
+            text = "text"
+            }
+        }
+    };
+
+    ResponseItem response = await lineManager.PushMessage(
+    new PushMessageRequest()
+    {
+        to = "User Iden",
+        messages = new List<Message>() {
+            new TemplateMessage("altText",template)
+        }
+    });
+
+</code></pre>
+
+
+<p>Send carousel template message</p>
+<pre><code>
+    LineClientManager lineManager = new LineClientManager(this.token);
+
+    var template = new CarouselTemplate()
+    {
+        columns = new List<CarouselTemplateColumn>(){
+            new CarouselTemplateColumn(){
+                title = "title",
+                text = "text",
+                ThumbnailImageUrl = "Thumbnail image url",
+                actions = new  List<LineBotKit.Common.Model.Actions.Action>(){
+                    new MessageAction(){
+                        label = "label",
+                        text = "text"
+                    }
+                }
+            }
+        }
+    };
+
+    ResponseItem response = await lineManager.PushMessage(
+    new PushMessageRequest()
+    {
+        to = "User Iden",
+        messages = new List<Message>() {
+            new TemplateMessage("altText",template)
+        }
+    });
+
+</code></pre>
+
+
+<p>Send image carousel template message</p>
+<pre><code>
+   LineClientManager clientManager = new LineClientManager(this.token);
+
+    var template = new ImageCarouselTemplate()
+    {
+        columns = new List<ImageCarouselTemplateColumn>(){
+            new ImageCarouselTemplateColumn(){
+                    imageUrl = "https://imageUrl.jpg",
+                    action = new MessageAction(){
+                        label = "label",
+                        text = "text"
+                    }
+
+            },
+            new ImageCarouselTemplateColumn(){
+                    imageUrl = "https://imageUrl.jpg",
+                    action = new UriAction(){
+                        label = "label",
+                        uri = "http://www.yahoo.com.tw"
+                    }
+            }
+        }
+    };
+
+    ResponseItem temp = await clientManager.PushMessage(
+    new PushMessageRequest()
+    {
+        to = "User Iden",
+        messages = new List<Message>() {
+                new TemplateMessage("altText",template)
+        }
+    });
+
+</code></pre>
+
+            <p></p>
+        </section>
     </div>
 
     <!-- FOOTER  -->
