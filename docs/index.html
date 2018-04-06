@@ -36,161 +36,190 @@
             </h3>
 
             <p>Send multiple message with different message type</p>
+            <div class="language-js highlighter-rouge">
+                <div class="highlight">
+                    <pre class="highlight">
+                    <code>
+                            LineClientManager lineManager = new LineClientManager(this.token);
 
-<pre>
-            <code>
-        LineClientManager lineManager = new LineClientManager(this.token);
+                            var response = await lineManager.PushMessage(
+                            new PushMessageRequest()
+                            {
+                            to = "User Iden",
+                            messages = new List<Message>(){
+                                new TextMessage("Test first message"),
+                                new ImageMessage(new Uri("https://OrginallyContentUrl.jpg"),new Uri("https://PreviewImageUrl.jpg"))
+                                }
+                            });
+                    </code>
+                    </pre>
+                </div>
+            </div>
 
-        var response = await lineManager.PushMessage(
-        new PushMessageRequest()
-        {
-        to = "User Iden",
-        messages = new List<Message>(){
-            new TextMessage("Test first message"),
-            new ImageMessage(new Uri("https://OrginallyContentUrl.jpg"),new Uri("https://PreviewImageUrl.jpg"))
-            }
-        });
-    </code>
-</pre>
 
             <p>Send buttons template message</p>
-<pre><code>
-    LineClientManager lineManager = new LineClientManager(this.token);
+            <div class="language-js highlighter-rouge">
+                <div class="highlight">
+                    <pre class="highlight">
+                    <code>
+                            LineClientManager lineManager = new LineClientManager(this.token);
 
-    var template = new ButtonsTemplate()
-    {
-        text = "text",
-        imageAspectRatio = ImageAspectRatioType.Square,
-        imageBackgroundColor = "#cccccc",
-        imageSize = ImageSizeType.Contain,
-        thumbnailImageUrl = "https://thumbnailImageUrl.jpg",
-        title = "title",
-        defaultAction = new UriAction()
-        {
-            label = "label",
-            uri = "http://www.yahoo.com.tw"
-        },
-        actions = new List<LineBotKit.Common.Model.Actions.Action>(){
-            new DatetimePickerAction(){
-                    label = "test",
-                    data = "abc=aaa&def=111",
-                    mode = DateTimePickerMode.Time
-            }
-        }
-    };
+                            var template = new ButtonsTemplate()
+                            {
+                                text = "text",
+                                imageAspectRatio = ImageAspectRatioType.Square,
+                                imageBackgroundColor = "#cccccc",
+                                imageSize = ImageSizeType.Contain,
+                                thumbnailImageUrl = "https://thumbnailImageUrl.jpg",
+                                title = "title",
+                                defaultAction = new UriAction()
+                                {
+                                    label = "label",
+                                    uri = "http://www.yahoo.com.tw"
+                                },
+                                actions = new List<LineBotKit.Common.Model.Actions.Action>(){
+                                    new DatetimePickerAction(){
+                                            label = "test",
+                                            data = "abc=aaa&def=111",
+                                            mode = DateTimePickerMode.Time
+                                    }
+                                }
+                            };
 
-    ResponseItem response = await lineManager.PushMessage(
-    new PushMessageRequest(){
-        to = "User Iden",
-        messages = new List<Message>(){
-                new TemplateMessage("altText",template)
-            }
-    });
-
-</code></pre>
+                            ResponseItem response = await lineManager.PushMessage(
+                            new PushMessageRequest(){
+                                to = "User Iden",
+                                messages = new List<Message>(){
+                                        new TemplateMessage("altText",template)
+                                    }
+                            });
+                    </code>
+                    </pre>
+                </div>
+            </div>
 
 
             <p>Send confirm template message</p>
-<pre><code>
-    LineClientManager lineManager = new LineClientManager(this.token);
 
-    var template = new ConfirmTemplate()
-    {
-        text = "text",
-        actions = new List<LineBotKit.Common.Model.Actions.Action>(){
-            new MessageAction(){
-                label = "test",
-                text = "text"
-            },
-            new MessageAction(){
-            label = "test",
-            text = "text"
-            }
-        }
-    };
+            <div class="language-js highlighter-rouge">
+                <div class="highlight">
+                    <pre class="highlight">
+                    <code>
+                           LineClientManager lineManager = new LineClientManager(this.token);
 
-    ResponseItem response = await lineManager.PushMessage(
-    new PushMessageRequest()
-    {
-        to = "User Iden",
-        messages = new List<Message>() {
-            new TemplateMessage("altText",template)
-        }
-    });
+                            var template = new ConfirmTemplate()
+                            {
+                                text = "text",
+                                actions = new List<LineBotKit.Common.Model.Actions.Action>(){
+                                    new MessageAction(){
+                                        label = "test",
+                                        text = "text"
+                                    },
+                                    new MessageAction(){
+                                    label = "test",
+                                    text = "text"
+                                    }
+                                }
+                            };
 
-</code></pre>
+                            ResponseItem response = await lineManager.PushMessage(
+                            new PushMessageRequest()
+                            {
+                                to = "User Iden",
+                                messages = new List<Message>() {
+                                    new TemplateMessage("altText",template)
+                                }
+                            });
+                    </code>
+                    </pre>
+                </div>
+            </div>
+
+            <p>Send carousel template message</p>
+
+            <div class="language-js highlighter-rouge">
+                <div class="highlight">
+                    <pre class="highlight">
+                    <code>
+                    LineClientManager lineManager = new LineClientManager(this.token);
+
+                    var template = new CarouselTemplate()
+                    {
+                        columns = new List<CarouselTemplateColumn>(){
+                            new CarouselTemplateColumn(){
+                                title = "title",
+                                text = "text",
+                                ThumbnailImageUrl = "Thumbnail image url",
+                                actions = new  List<LineBotKit.Common.Model.Actions.Action>(){
+                                    new MessageAction(){
+                                        label = "label",
+                                        text = "text"
+                                    }
+                                }
+                            }
+                        }
+                    };
+
+                    ResponseItem response = await lineManager.PushMessage(
+                    new PushMessageRequest()
+                    {
+                        to = "User Iden",
+                        messages = new List<Message>() {
+                            new TemplateMessage("altText",template)
+                        }
+                    }); 
+                    </code>
+                    </pre>
+                </div>
+            </div>
 
 
-<p>Send carousel template message</p>
-<pre><code>
-    LineClientManager lineManager = new LineClientManager(this.token);
-
-    var template = new CarouselTemplate()
-    {
-        columns = new List<CarouselTemplateColumn>(){
-            new CarouselTemplateColumn(){
-                title = "title",
-                text = "text",
-                ThumbnailImageUrl = "Thumbnail image url",
-                actions = new  List<LineBotKit.Common.Model.Actions.Action>(){
-                    new MessageAction(){
-                        label = "label",
-                        text = "text"
-                    }
-                }
-            }
-        }
-    };
-
-    ResponseItem response = await lineManager.PushMessage(
-    new PushMessageRequest()
-    {
-        to = "User Iden",
-        messages = new List<Message>() {
-            new TemplateMessage("altText",template)
-        }
-    });
-
-</code></pre>
 
 
-<p>Send image carousel template message</p>
-<pre><code>
-   LineClientManager clientManager = new LineClientManager(this.token);
+            <p>Send image carousel template message</p>
 
-    var template = new ImageCarouselTemplate()
-    {
-        columns = new List<ImageCarouselTemplateColumn>(){
-            new ImageCarouselTemplateColumn(){
-                    imageUrl = "https://imageUrl.jpg",
-                    action = new MessageAction(){
-                        label = "label",
-                        text = "text"
-                    }
+            <div class="language-js highlighter-rouge">
+                <div class="highlight">
+                    <pre class="highlight">
+                    <code>
+                            LineClientManager clientManager = new LineClientManager(this.token);
 
-            },
-            new ImageCarouselTemplateColumn(){
-                    imageUrl = "https://imageUrl.jpg",
-                    action = new UriAction(){
-                        label = "label",
-                        uri = "http://www.yahoo.com.tw"
-                    }
-            }
-        }
-    };
+                            var template = new ImageCarouselTemplate()
+                            {
+                                columns = new List<ImageCarouselTemplateColumn>(){
+                                    new ImageCarouselTemplateColumn(){
+                                            imageUrl = "https://imageUrl.jpg",
+                                            action = new MessageAction(){
+                                                label = "label",
+                                                text = "text"
+                                            }
 
-    ResponseItem temp = await clientManager.PushMessage(
-    new PushMessageRequest()
-    {
-        to = "User Iden",
-        messages = new List<Message>() {
-                new TemplateMessage("altText",template)
-        }
-    });
+                                    },
+                                    new ImageCarouselTemplateColumn(){
+                                            imageUrl = "https://imageUrl.jpg",
+                                            action = new UriAction(){
+                                                label = "label",
+                                                uri = "http://www.yahoo.com.tw"
+                                            }
+                                    }
+                                }
+                            };
 
-</code></pre>
+                            ResponseItem temp = await clientManager.PushMessage(
+                            new PushMessageRequest()
+                            {
+                                to = "User Iden",
+                                messages = new List<Message>() {
+                                        new TemplateMessage("altText",template)
+                                }
+                            });
+                    </code>
+                    </pre>
+                </div>
+            </div>
 
-            <p></p>
+        
+        <p></p>
         </section>
     </div>
 
