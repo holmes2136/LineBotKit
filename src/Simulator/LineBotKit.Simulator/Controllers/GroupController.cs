@@ -39,7 +39,7 @@ namespace LineBotKit.Simulator.Controllers
         /// <param name="token"></param>
         /// <returns></returns>
         [Route("GroupMemberIds"), HttpGet]
-        public async Task<ResponseItem> GetGroupMemberIds(string groupId, string token)
+        public async Task<MemberIdensResponse> GetGroupMemberIds(string groupId, string token)
         {
             ILineClientManager lineManager = new LineClientManager(token);
             return await lineManager.GetGroupMemberIds(groupId);

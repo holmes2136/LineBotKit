@@ -48,13 +48,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LineBotKit.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LineBotKit.Client.1.0.0\lib\net452\LineBotKit.Client.dll</HintPath>
+      <HintPath>..\..\LineBotKit.Client\bin\Debug\LineBotKit.Client.dll</HintPath>
     </Reference>
     <Reference Include="LineBotKit.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LineBotKit.Client.1.0.0\lib\net452\LineBotKit.Common.dll</HintPath>
+      <HintPath>..\..\LineBotKit.Common\bin\Debug\LineBotKit.Common.dll</HintPath>
     </Reference>
     <Reference Include="LineBotKit.WebAPI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LineBotKit.Client.1.0.0\lib\net452\LineBotKit.WebAPI.dll</HintPath>
+      <HintPath>..\..\LineBotKit.WebAPI\bin\Debug\LineBotKit.WebAPI.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.7\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -272,6 +272,12 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LineBotKit.Client.UnitTests\LineBotKit.Client.UnitTests.csproj">
+      <Project>{6fefe6e5-d166-4eda-a641-f72060ce93c4}</Project>
+      <Name>LineBotKit.Client.UnitTests</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

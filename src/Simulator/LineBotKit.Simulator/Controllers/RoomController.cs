@@ -24,7 +24,7 @@ namespace LineBotKit.Simulator.Controllers
         /// <param name="token"></param>
         /// <returns></returns>
         [Route("RoomMemberIds"), HttpGet]
-        public async Task<ResponseItem> GetRoomMemberIds(string roomId, string token)
+        public async Task<MemberIdensResponse> GetRoomMemberIds(string roomId, string token)
         {
             ILineClientManager lineManager = new LineClientManager(token);
             return await lineManager.GetRoomMemberIds(roomId);
