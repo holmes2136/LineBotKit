@@ -1,7 +1,7 @@
 version: '{build}'
 image: Visual Studio 2017
 before_build:
-- cmd: nuget restore LineBotKit.sln
+- cmd: nuget restore src/LineBotKit.sln
 build:
-  project: LineBotKit.sln
+  project: src/LineBotKit.sln
   verbosity: minimal
