@@ -1,34 +1,34 @@
-﻿using LineBotKit.Common.Model;
-using LineBotKit.Common.Model.RichMenu;
-using LineBotKit.WebAPI.Model;
+﻿using LineBotKit.Client.Request;
+using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
+using LinetBotKit.Common.Model.RichMenu;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LineBotKit.Client
 {
-    public class RichMenuClient:ClientBase,IRichMenuClient
+    public class RichMenuClient : Request.LineClientBase, IRichMenuClient
     {
-        public RichMenuClient(string _ChannelAccessToken)
-        {
-            this.ChannelAccessToken = _ChannelAccessToken;
-        }
+        public RichMenuClient(string channelAccessToken) : base(channelAccessToken) { }
 
         /// <summary>
         /// Gets a rich menu via a rich menu ID.
         /// </summary>
         /// <param name="richMenuId"></param>
         /// <returns></returns>
-        public async Task<RichMenu> Get(string richMenuId)
+        public async Task<LineClientResult<RichMenu>> Get(string richMenuId)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, $"bot/richmenu/{richMenuId}");
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<RichMenu>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(richMenuId))
+            {
+                throw new ArgumentException("The property rich menu iden can't not be null");
+            }
+
+            var request = new LineGetRequest<RichMenu>(this, $"bot/richmenu/{richMenuId}");
+
+            return await request.Execute();
         }
 
         /// <summary>
@@ -36,11 +36,16 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="richMenu"></param>
         /// <returns></returns>
-        public async Task<RichMenuIdResponse> Create(RichMenu richMenu)
+        public async Task<LineClientResult<RichMenuIdResponse>> Create(RichMenu richMenu)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, "bot/richmenu", richMenu);
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<RichMenuIdResponse>(request).ConfigureAwait(false);
+            if (richMenu == null)
+            {
+                throw new ArgumentNullException(nameof(RichMenu));
+            }
+
+            var request = new LinePostRequest<RichMenuIdResponse>(this, $"bot/richmenu");
+
+            return await request.Execute(richMenu);
         }
 
         /// <summary>
@@ -48,11 +53,16 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="richMenuId"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> Delete(string richMenuId)
+        public async Task<LineClientResult<ResponseItem>> Delete(string richMenuId)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Delete, $"bot/richmenu/{richMenuId}");
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(richMenuId))
+            {
+                throw new ArgumentException("The property rich menu iden can't not be null");
+            }
+
+            var request = new LineDeleteRequest<ResponseItem>(this, $"bot/richmenu/{richMenuId}");
+
+            return await request.Execute();
         }
 
         /// <summary>
@@ -60,11 +70,16 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<RichMenuIdResponse> GetRichMenuByUserId(string userId)
+        public async Task<LineClientResult<RichMenuIdResponse>> GetRichMenuByUserId(string userId)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, $"bot/user/{userId}/richmenu");
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<RichMenuIdResponse>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("The property user iden can't not be null");
+            }
+
+            var request = new LineGetRequest<RichMenuIdResponse>(this, $"bot/user/{userId}/richmenu");
+
+            return await request.Execute();
         }
 
         /// <summary>
@@ -73,11 +88,21 @@ namespace LineBotKit.Client
         /// <param name="userId"></param>
         /// <param name="richMenuId"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> LinkRichMenuWithUser(string userId,string richMenuId)
+        public async Task<LineClientResult<ResponseItem>> LinkRichMenuWithUser(string userId, string richMenuId)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, $"bot/user/{userId}/richmenu/{richMenuId}");
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("The property user iden can't not be null");
+            }
+
+            if (string.IsNullOrEmpty(richMenuId))
+            {
+                throw new ArgumentException("The property rich menu iden can't not be null");
+            }
+
+            var request = new LinePostRequest<ResponseItem>(this, $"bot/user/{userId}/richmenu/{richMenuId}");
+
+            return await request.Execute(null);
         }
 
         /// <summary>
@@ -85,34 +110,27 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> UnLinkRichMenuWithUser(string userId)
+        public async Task<LineClientResult<ResponseItem>> UnLinkRichMenuWithUser(string userId)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Delete, $"bot/user/{userId}/richmenu");
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("The property user iden can't not be null");
+            }
+
+            var request = new LineDeleteRequest<ResponseItem>(this, $"bot/user/{userId}/richmenu");
+
+            return await request.Execute();
         }
 
         /// <summary>
         /// Gets a list of all uploaded rich menus.
         /// </summary>
         /// <returns></returns>
-        public async Task<RichMenuListResponse> GetRichMenuList()
+        public async Task<LineClientResult<RichMenuListResponse>> GetRichMenuList()
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, "bot/richmenu/list");
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<RichMenuListResponse>(request).ConfigureAwait(false);
-        }
+            var request = new LineGetRequest<RichMenuListResponse>(this, $"bot/richmenu/list");
 
-        /// <summary>
-        /// Downloads an image associated with a rich menu.
-        /// </summary>
-        /// <param name="richMenuId"></param>
-        /// <returns></returns>
-        public Stream GetRichMenuImage(string richMenuId)
-        {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, $"bot/richmenu/{richMenuId}/content");
-            request.Authorization = this.ChannelAccessToken;
-            return ExecuteStreamServiceCall(request);
+            return await request.Execute();
         }
 
         /// <summary>
@@ -121,13 +139,34 @@ namespace LineBotKit.Client
         /// <param name="richMenuId"></param>
         /// <param name="imageStream"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> SetRichMenuImage(string richMenuId, Byte[] image)
+        public async Task<LineClientResult<ResponseItem>> SetRichMenuImage(string richMenuId, Byte[] image)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, $"bot/richmenu/{richMenuId}/content", image);
-            request.Authorization = this.ChannelAccessToken;
-            request.Content = new ByteArrayContent(image);
-            request.Content.Headers.Add("Content-Type", "image/jpeg");
-            return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(richMenuId))
+            {
+                throw new ArgumentException("The property rich menu iden can't not be null");
+            }
+
+            var request = new LinePostByteContentRequest<ResponseItem>(this, $"bot/richmenu/{richMenuId}/content");
+
+            return await request.Execute(image);
+        }
+
+
+        /// <summary>
+        /// Downloads an image associated with a rich menu.
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<Stream>> GetRichMenuImage(string richMenuId)
+        {
+            if (string.IsNullOrEmpty(richMenuId))
+            {
+                throw new ArgumentException("The property rich menu iden can't not be null");
+            }
+
+            var request = new LineGetStreamRequest<Stream>(this, $"bot/richmenu/{richMenuId}/content");
+
+            return await request.Execute();
         }
     }
 }

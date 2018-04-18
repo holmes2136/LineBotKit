@@ -1,95 +1,57 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LineBotKit.WebAPI;
 using Moq;
-using System.Threading.Tasks;
-using LineBotKit.Common.Model;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace LineBotKit.Client.UnitTests
 {
-    /// <summary>
-    /// Summary description for RoomClientTests
-    /// </summary>
     [TestClass]
     public class RoomClientTests
     {
-        private Mock<ILineApiClient> _webApiClient;
         private Mock<IRoomClient> _roomClient;
+        private JsonSerializerSettings jsonSettings;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _webApiClient = new Mock<ILineApiClient>();
             _roomClient = new Mock<IRoomClient>();
+            jsonSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore
+            };
 
+            jsonSettings.Converters.Add(new StringEnumConverter(true));
         }
 
-        [TestMethod]
-        public void Leave_RequestTest()
-        {
-
-            _roomClient.Setup(x => x.Leave(It.IsAny<string>())).Returns(Task.FromResult<bool>(true));
-
-            // Execute
-            Task<bool> response = _roomClient.Object.Leave("43214");
-
-            bool result = response.Result;
-
-            //// Verify
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(result);
-
-        }
-
-        [TestMethod]
-        public void GetMemberProfile_RequestTest()
-        {
-
-            _roomClient.Setup(x => x.GetMemberProfile(It.IsAny<string>(),It.IsAny<string>())).Returns(Task.FromResult<Profile>(new Profile()));
-
-            // Execute
-            Task<Profile> response = _roomClient.Object.GetMemberProfile("userId","roomId");
-
-            Profile result = response.Result;
-
-            //// Verify
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(result);
-
-        }
 
         [TestMethod]
         public void GetMemberProfile_JsonFormatTest()
         {
-            _roomClient.Setup(x => x.GetMemberProfile(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult<Profile>(new Profile()));
+            var apiResponse = new LineClientResult<Profile>()
+            {
+                Response = new Profile()
+                {
+                    displayName = "",
+                    pictureUrl = "",
+                    userId = ""
+                }
+            };
+
+            _roomClient.Setup(x => x.GetMemberProfile(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult<LineClientResult<Profile>>(apiResponse));
 
             // Execute
-            Task<Profile> response = _roomClient.Object.GetMemberProfile("userId", "roomId");
+            Task<LineClientResult<Profile>> response = _roomClient.Object.GetMemberProfile("userId", "roomId");
 
-            Profile result = response.Result;
+            var result = response.Result;
 
             // Verify
-            Assert.AreEqual<string>(JsonConvert.SerializeObject(result), "{\"userId\":null,\"displayName\":null,\"pictureUrl\":null}");
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(result, jsonSettings), "{\"response\":{\"userId\":\"\",\"displayName\":\"\",\"pictureUrl\":\"\"},\"statusCode\":0,\"isSuccessStatusCode\":false}");
         }
 
-        [TestMethod]
-        public void GetMemberIds_RequestTest()
-        {
-
-            _roomClient.Setup(x => x.GetMemberIds(It.IsAny<string>())).Returns(Task.FromResult<MemberIdensResponse>(new MemberIdensResponse()));
-
-            // Execute
-            Task<MemberIdensResponse> response = _roomClient.Object.GetMemberIds("roomId");
-
-            MemberIdensResponse result = response.Result;
-
-            //// Verify
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(result);
-
-        }
     }
 }

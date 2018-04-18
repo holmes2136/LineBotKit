@@ -1,9 +1,8 @@
-﻿using LineBotKit.Common.Model;
-using LineBotKit.Common.Model.Message;
+﻿using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,15 +10,9 @@ namespace LineBotKit.Client
 {
     public interface IMessageClient
     {
-
-        Task<ResponseItem> PushMessage(PushMessageRequest message);
-
-        Task<ResponseItem> MulticastMessage(MultiCastMessageRequest messages);
-
-        Task<ResponseItem> ReplyMessage(ReplyMessageRequest message);
-
-        Stream GetMessageContent(string messageId);
+        Task<LineClientResult<ResponseItem>> PushMessage(PushMessageRequest message);
+        Task<LineClientResult<ResponseItem>> MulticastMessage(MultiCastMessageRequest messages);
+        Task<LineClientResult<ResponseItem>> ReplyMessage(ReplyMessageRequest message);
+        Task<LineClientResult<Stream>> GetMessageContent(string messageId);
     }
-
-
 }

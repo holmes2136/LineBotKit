@@ -1,14 +1,13 @@
-﻿using LineBotKit.Common.Model.Actions;
-using LineBotKit.Common.Model.RichMenu;
+using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
+using LinetBotKit.Common.Model.Actions;
+using LinetBotKit.Common.Model.RichMenu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LineBotKit.Client.UnitTests
@@ -40,7 +39,8 @@ namespace LineBotKit.Client.UnitTests
             {
                 name = "test",
                 richMenuId = "",
-                size = new Size() {
+                size = new Size()
+                {
                     height = 100,
                     width = 100
                 },
@@ -52,12 +52,7 @@ namespace LineBotKit.Client.UnitTests
                               data = "i=2&c=3",
                               displayText = "display text"
                          },
-                         bounds = new Bounds(){
-                              height = 100,
-                              width = 100,
-                              x = 2,
-                              y = 3
-                         }
+                         bounds = new Bounds(2,3,100,100)
                     }
                 }
             };

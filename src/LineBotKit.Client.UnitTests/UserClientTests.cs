@@ -1,63 +1,55 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LineBotKit.WebAPI;
 using Moq;
-using LineBotKit.WebAPI.Model;
-using System.Net.Http;
-using System.Net;
-using LineBotKit.Common.Model;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace LineBotKit.Client.UnitTests
 {
-    /// <summary>
-    /// Summary description for UserClientTests
-    /// </summary>
     [TestClass]
     public class UserClientTests
     {
-        private Mock<ILineApiClient> _webApiClient;
         private Mock<IUserClient> _userClient;
+        private JsonSerializerSettings jsonSettings;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _webApiClient = new Mock<ILineApiClient>();
             _userClient = new Mock<IUserClient>();
+            jsonSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore
+            };
 
-        }
-
-        [TestMethod]
-        public void GetUserProfile_RequestTest()
-        {
-            _userClient.Setup(x => x.GetProfile(It.IsAny<string>())).Returns(Task.FromResult<Profile>(new Profile()));
-
-            // Execute
-            Task<Profile> response = _userClient.Object.GetProfile("user id");
-         
-            Profile result = response.Result;
-
-            //// Verify
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(result);
-
+            jsonSettings.Converters.Add(new StringEnumConverter(true));
         }
 
         [TestMethod]
         public void GetUserProfile_JsonFormatTest()
         {
-            _userClient.Setup(x => x.GetProfile(It.IsAny<string>())).Returns(Task.FromResult<Profile>(new Profile()));
+            var apiResponse = new LineClientResult<Profile>()
+            {
+                Response = new Profile()
+                {
+                    displayName = "",
+                    pictureUrl = "",
+                    userId = ""
+                }
+            };
+
+            _userClient.Setup(x => x.GetProfile(It.IsAny<string>())).Returns(Task.FromResult<LineClientResult<Profile>>(apiResponse));
 
             // Execute
-            Task<Profile> response = _userClient.Object.GetProfile("user id");
+            Task<LineClientResult<Profile>> response = _userClient.Object.GetProfile("user id");
 
-            Profile result = response.Result;
+            var result = response.Result.Response;
 
             // Verify
-            Assert.AreEqual<string>(JsonConvert.SerializeObject(result), "{\"userId\":null,\"displayName\":null,\"pictureUrl\":null}");
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(result), "{\"userId\":\"\",\"displayName\":\"\",\"pictureUrl\":\"\"}");
         }
     }
 }

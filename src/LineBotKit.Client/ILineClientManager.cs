@@ -1,10 +1,10 @@
-﻿using LineBotKit.Common.Model;
-using LineBotKit.Common.Model.Message;
-using LineBotKit.Common.Model.RichMenu;
+﻿using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
+using LinetBotKit.Common.Model.Message;
+using LinetBotKit.Common.Model.RichMenu;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,151 +14,67 @@ namespace LineBotKit.Client
     {
         #region Send message related
 
-        Task<ResponseItem> PushTextMessage(string to , string message);
-
-        Task<ResponseItem> PushImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
-
-        Task<ResponseItem> PushStickerMessage(string to, int packageId, int stickerId);
-
-        /// <summary>
-        /// Send audio message
-        /// </summary>
-        /// <param name="to"></param>
-        /// <param name="originalContentUrl">URL of audio file (Max: 1000 characters),HTTPS,m4a,Max: 1 minute,Max: 10 MB</param>
-        /// <param name="duration">Length of audio file (milliseconds)</param>
-        /// <returns></returns>
-        Task<ResponseItem> PushAudioMessage(string to, string originalContentUrl, int duration);
-
-        /// <summary>
-        /// Send video message
-        /// </summary>
-        /// <param name="to"></param>
-        /// <param name="originalContentUrl">URL of video file (Max: 1000 characters) ,HTTPS,mp4,Max: 1 minute,Max: 10 MB</param>
-        /// <param name="previewImageUrl">URL of preview image (Max: 1000 characters),HTTPS,JPEG,Max: 240 x 240,Max: 1 MB</param>
-        /// <returns></returns>
-        Task<ResponseItem> PushVideoMessage(string to, string originalContentUrl, string previewImageUrl);
-
-        /// <summary>
-        /// Send location message
-        /// </summary>
-        /// <param name="to"></param>
-        /// <param name="title"></param>
-        /// <param name="address"></param>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
-        /// <returns></returns>
-        Task<ResponseItem> PushLocationMessage(string to, string title, string address, decimal latitude, decimal longitude);
-
-        Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest);
-
-        /// <summary>
-        /// Gets image, video, and audio data sent by users.
-        /// </summary>
-        /// <param name="messageId"></param>
-        /// <returns></returns>
-        Stream GetMessageContent(string messageId);
-
-        Task<ResponseItem> MulticastMessage(List<string> to, List<Message> messages);
+        Task<LineClientResult<ResponseItem>> PushTextMessage(string to, string message);
+        Task<LineClientResult<ResponseItem>> PushImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
+        Task<LineClientResult<ResponseItem>> PushStickerMessage(string to, int packageId, int stickerId);
+        Task<LineClientResult<ResponseItem>> PushAudioMessage(string to, string originalContentUrl, int duration);
+        Task<LineClientResult<ResponseItem>> PushVideoMessage(string to, string originalContentUrl, string previewImageUrl);
+        Task<LineClientResult<ResponseItem>> PushLocationMessage(string to, string title, string address, decimal latitude, decimal longitude);
+        Task<LineClientResult<ResponseItem>> PushMessage(PushMessageRequest pushMessageRequest);
+        Task<LineClientResult<ResponseItem>> MulticastMessage(List<string> to, List<Message> messages);
 
         #endregion
 
         #region Reply message related
 
-        Task<ResponseItem> ReplyTextMessage(string to, string message);
-
-        Task<ResponseItem> ReplyImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
-
-        Task<ResponseItem> ReplyStickerMessage(string to, int packageId, int stickerId);
-
-        Task<ResponseItem> ReplyMessage(ReplyMessageRequest reply);
-
-        #endregion
-
-        #region Profile related
-
-        Task<Profile> GetProfile(string userId);
+        Task<LineClientResult<ResponseItem>> ReplyTextMessage(string replyToken, string message);
+        Task<LineClientResult<ResponseItem>> ReplyImageMessage(string to, string imageContentUrl, string imagePreviewUrl);
+        Task<LineClientResult<ResponseItem>> ReplyStickerMessage(string to, int packageId, int stickerId);
+        Task<LineClientResult<ResponseItem>> ReplyAudioMessage(string replyToken, string to, string originalContentUrl, int duration);
+        Task<LineClientResult<ResponseItem>> ReplyVideoMessage(string replyToken, string to, string originalContentUrl, string previewImageUrl);
+        Task<LineClientResult<ResponseItem>> ReplyLocationMessage(string replyToken, string to, string title, string address, decimal latitude, decimal longitude);
+        Task<LineClientResult<ResponseItem>> ReplyImageMapMessage(string replyToken, string to, ImageMapMessage imageMapMessages);
+        Task<LineClientResult<ResponseItem>> ReplyMessage(ReplyMessageRequest reply);
 
         #endregion
 
-        #region Group related
+        Task<LineClientResult<Stream>> GetMessageContent(string messageId);
+        Task<LineClientResult<Profile>> GetProfile(string userId);
 
-        Task<ResponseItem> LeaveGroup(string groupId);
+        #region Oauth related
 
-        Task<Profile> GetGroupMemberProfile(string userId, string groupId);
-
-        Task<MemberIdensResponse> GetGroupMemberIds(string groupId);
-
-        #endregion
-
-        #region Room related
-
-        Task<Profile> GetRoomMemberProfile(string userId, string groupId);
-
-        Task<MemberIdensResponse> GetRoomMemberIds(string roomId);
+        Task<LineClientResult<AccessTokenResponse>> IssueToken(IssueTokenRequest issueTokenRequest);
+        Task<LineClientResult<ResponseItem>> RevokeToken(string token);
 
         #endregion
 
         #region Rich Menu
 
-        /// <summary>
-        /// Gets a rich menu via a rich menu ID.
-        /// </summary>
-        /// <param name="richMenuId"></param>
-        /// <returns></returns>
-        Task<RichMenu> GetRichMenu(string richMenuId);
+        Task<LineClientResult<RichMenu>> GetRichMenu(string richMenuId);
+        Task<LineClientResult<RichMenuIdResponse>> CreateRichMenu(RichMenu richMenu);
+        Task<LineClientResult<ResponseItem>> DeleteRichMenu(string richMenuId);
+        Task<LineClientResult<RichMenuIdResponse>> GetRichMenuByUserId(string userId);
+        Task<LineClientResult<ResponseItem>> LinkRichMenuWithUser(string userId, string richMenuId);
+        Task<LineClientResult<ResponseItem>> UnLinkRichMenuWithUser(string userId);
+        Task<LineClientResult<RichMenuListResponse>> GetRichMenuList();
+        Task<LineClientResult<ResponseItem>> SetRichMenuImage(string richMenuId, byte[] image);
+        Task<LineClientResult<Stream>> GetRichMenuImage(string richMenuId);
+        #endregion
 
-        /// <summary>
-        /// Creates a rich menu.
-        /// </summary>
-        /// <param name="richMenu"></param>
-        /// <returns></returns>
-        Task<RichMenuIdResponse> CreateRichMenu(RichMenu richMenu);
+        #region Group related
 
-        /// <summary>
-        /// Deletes a rich menu.
-        /// </summary>
-        /// <param name="richMenuId"></param>
-        /// <returns></returns>
-        Task<ResponseItem> DeleteRichMenu(string richMenuId);
-
-        /// <summary>
-        /// Gets the ID of the rich menu linked to a user.
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        Task<RichMenuIdResponse> GetRichMenuByUserId(string userId);
-
-        /// <summary>
-        /// Links a rich menu to a user. Only one rich menu can be linked to a user at one time.
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="richMenuId"></param>
-        /// <returns></returns>
-        Task<ResponseItem> LinkRichMenuWithUser(string userId, string richMenuId);
-
-        /// <summary>
-        /// Unlinks a rich menu from a user.
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        Task<ResponseItem> UnLinkRichMenuWithUser(string userId);
-
-        /// <summary>
-        /// Gets a list of all uploaded rich menus.
-        /// </summary>
-        /// <returns></returns>
-        Task<RichMenuListResponse> GetRichMenuList();
-
-        /// <summary>
-        /// Downloads an image associated with a rich menu.
-        /// </summary>
-        /// <param name="richMenuId"></param>
-        /// <returns></returns>
-        Stream GetRichMenuImage(string richMenuId);
-
-        Task<ResponseItem> SetRichMenuImage(string richMenuId , byte[] image);
+        Task<LineClientResult<ResponseItem>> LeaveGroup(string groupId);
+        Task<LineClientResult<Profile>> GetGroupMemberProfile(string userId, string groupId);
+        Task<LineClientResult<MemberIdensResponse>> GetGroupMemberIds(string groupId);
 
         #endregion
 
+        #region Room related
+
+        Task<LineClientResult<ResponseItem>> LeaveRoom(string roomId);
+        Task<LineClientResult<Profile>> GetRoomMemberProfile(string userId, string groupId);
+        Task<LineClientResult<MemberIdensResponse>> GetRoomMemberIds(string roomId);
+
+        #endregion
     }
 }

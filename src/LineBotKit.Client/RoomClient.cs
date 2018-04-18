@@ -1,58 +1,75 @@
-﻿using LineBotKit.Common.Model;
+﻿using LineBotKit.Client.Request;
+using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using LineBotKit.WebAPI.Model;
 
 namespace LineBotKit.Client
 {
-    public class RoomClient: ClientBase, IRoomClient
+    public class RoomClient : Request.LineClientBase, IRoomClient
     {
-
-        public RoomClient(string _ChannelAccessToken)
+        public RoomClient(string channelAccessToken) : base(channelAccessToken)
         {
-            this.ChannelAccessToken = _ChannelAccessToken;
-        }
 
-
-        /// <summary>
-        /// https://api.line.me/v2/bot/room/{roomId}/leave
-        /// </summary>
-        /// <param name="roomId"></param>
-        /// <returns></returns>
-        public async Task<bool> Leave(string roomId)
-        {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, string.Format("bot/room/{0}/leave",roomId));
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<bool>(request).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// https://api.line.me/v2/bot/room/{roomId}/member/{userId}
+        /// Leave room
         /// </summary>
         /// <param name="roomId"></param>
         /// <returns></returns>
-        public async Task<Profile> GetMemberProfile(string userId,string roomId)
+        public  async Task<LineClientResult<ResponseItem>> Leave(string roomId)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, string.Format("bot/room/{0}/member/{1}",roomId,userId));
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<Profile>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(roomId))
+            {
+                throw new ArgumentException("The property room iden can't not be null");
+            }
+
+            var request = new LineGetRequest<ResponseItem>(this, $"bot/room/{roomId}/leave");
+
+            return await request.Execute();
         }
 
         /// <summary>
-        /// https://api.line.me/v2/bot/room/{roomId}/members/ids
+        /// Get room member profile
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<Profile>> GetMemberProfile(string userId, string roomId)
+        {
+            if (string.IsNullOrEmpty(roomId))
+            {
+                throw new ArgumentException("The property user iden can't not be null");
+            }
+
+            if (string.IsNullOrEmpty(roomId))
+            {
+                throw new ArgumentException("The property room iden can't not be null");
+            }
+
+            var request = new LineGetRequest<Profile>(this, $"bot/room/{roomId}/member/{userId}");
+
+            return await request.Execute();
+        }
+
+        /// <summary>
+        /// Get room member idens
         /// </summary>
         /// <param name="roomId"></param>
         /// <returns></returns>
-        public async Task<MemberIdensResponse> GetMemberIds(string roomId)
+        public async Task<LineClientResult<MemberIdensResponse>> GetMemberIds(string roomId)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, string.Format("bot/room/{0}/members/ids",roomId));
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<MemberIdensResponse>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(roomId))
+            {
+                throw new ArgumentException("The property user iden can't not be null");
+            }
+
+            var request = new LineGetRequest<MemberIdensResponse>(this, $"bot/room/{roomId}/members/ids");
+
+            return await request.Execute();
         }
-        
     }
 }

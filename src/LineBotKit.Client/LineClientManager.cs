@@ -1,41 +1,44 @@
-﻿using LineBotKit.Common.Model;
-using LineBotKit.Common.Model.Message;
-using LineBotKit.Common.Model.RichMenu;
+﻿using LineBotKit.Client.Request;
+using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
+using LinetBotKit.Common.Model.Message;
+using LinetBotKit.Common.Model.RichMenu;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LineBotKit.Client
 {
-    public class LineClientManager : ILineClientManager
+    public class LineClientManager:ILineClientManager
     {
+        private MessageClient messageClient { get; set; }
+        private UserClient userClient { get; set; }
+        private GroupClient groupClient { get; set; }
+        private RoomClient roomClient { get; set; }
+        private AuthenticateClient authenticateClient { get; set; }
+        private RichMenuClient richMenuClient { get; set; }
 
-        public string _ChannelAccessToken { get; set; }
-        public MessageClient messageClient { get; set; }
-        public RoomClient roomClient { get; set; }
-        public UserClient userClient { get; set; }
-        public GroupClient groupClient { get; set; }
-        public RichMenuClient richMenuClient { get; set; }
-        public AuthenticateClient authenticateClient { get; set; }
-
-        public LineClientManager(string ChannelAccessToken)
+        public LineClientManager(string channelAccessToken)
         {
-            this._ChannelAccessToken = ChannelAccessToken;
-            this.messageClient = new MessageClient(ChannelAccessToken);
-            this.userClient = new UserClient(ChannelAccessToken);
-            this.groupClient = new GroupClient(ChannelAccessToken);
-            this.roomClient = new RoomClient(ChannelAccessToken);
-            this.richMenuClient = new RichMenuClient(ChannelAccessToken);
-            this.authenticateClient = new AuthenticateClient();
+            this.messageClient = new MessageClient(channelAccessToken);
+            this.userClient = new UserClient(channelAccessToken);
+            this.groupClient = new GroupClient(channelAccessToken);
+            this.roomClient = new RoomClient(channelAccessToken);
+            this.authenticateClient = new AuthenticateClient(channelAccessToken);
+            this.richMenuClient = new RichMenuClient(channelAccessToken);
         }
 
-        #region Send message realted
+        #region Send message related
 
-        public async Task<ResponseItem> PushTextMessage(string to, string message)
+        /// <summary>
+        /// Send text message
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<ResponseItem>> PushTextMessage(string to, string message)
         {
             var pushMessageRequest = new PushMessageRequest()
             {
@@ -47,7 +50,14 @@ namespace LineBotKit.Client
             return await messageClient.PushMessage(pushMessageRequest);
         }
 
-        public async Task<ResponseItem> PushImageMessage(string to, string imageContentUrl, string imagePreviewUrl)
+        /// <summary>
+        /// Send image message
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="imageContentUrl"></param>
+        /// <param name="imagePreviewUrl"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<ResponseItem>> PushImageMessage(string to, string imageContentUrl, string imagePreviewUrl)
         {
             Uri imgContentUrl = new Uri(imageContentUrl);
             Uri imgePreviewUrl = new Uri(imagePreviewUrl);
@@ -63,7 +73,14 @@ namespace LineBotKit.Client
             return await messageClient.PushMessage(pushMessageRequest);
         }
 
-        public async Task<ResponseItem> PushStickerMessage(string to, int packageId, int stickerId)
+        /// <summary>
+        /// Send sticker message
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="packageId"></param>
+        /// <param name="stickerId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<ResponseItem>> PushStickerMessage(string to, int packageId, int stickerId)
         {
             var pushMessageRequest = new PushMessageRequest()
             {
@@ -83,7 +100,7 @@ namespace LineBotKit.Client
         /// <param name="originalContentUrl">URL of audio file (Max: 1000 characters),HTTPS,m4a,Max: 1 minute,Max: 10 MB</param>
         /// <param name="duration">Length of audio file (milliseconds)</param>
         /// <returns></returns>
-        public async Task<ResponseItem> PushAudioMessage(string to, string originalContentUrl, int duration)
+        public async Task<LineClientResult<ResponseItem>> PushAudioMessage(string to, string originalContentUrl, int duration)
         {
             Uri _originalContentUrl = new Uri(originalContentUrl);
 
@@ -105,7 +122,7 @@ namespace LineBotKit.Client
         /// <param name="originalContentUrl">URL of video file (Max: 1000 characters) ,HTTPS,mp4,Max: 1 minute,Max: 10 MB</param>
         /// <param name="previewImageUrl">URL of preview image (Max: 1000 characters),HTTPS,JPEG,Max: 240 x 240,Max: 1 MB</param>
         /// <returns></returns>
-        public async Task<ResponseItem> PushVideoMessage(string to, string originalContentUrl, string previewImageUrl)
+        public async Task<LineClientResult<ResponseItem>> PushVideoMessage(string to, string originalContentUrl, string previewImageUrl)
         {
             Uri _originalContentUrl = new Uri(originalContentUrl);
             Uri _previewImageUrl = new Uri(previewImageUrl);
@@ -130,7 +147,7 @@ namespace LineBotKit.Client
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> PushLocationMessage(string to, string title, string address , decimal latitude , decimal longitude)
+        public async Task<LineClientResult<ResponseItem>> PushLocationMessage(string to, string title, string address, decimal latitude, decimal longitude)
         {
             var pushMessageRequest = new PushMessageRequest()
             {
@@ -149,18 +166,23 @@ namespace LineBotKit.Client
         /// <param name="to"></param>
         /// <param name="imageMapMessages"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> PushImageMapMessage(string to, ImageMapMessage imageMapMessages)
+        public async Task<LineClientResult<ResponseItem>> PushImageMapMessage(string to, ImageMapMessage imageMapMessages)
         {
             var pushMessageRequest = new PushMessageRequest()
             {
                 to = to,
                 messages = new List<Message>() { imageMapMessages }
             };
-            
+
             return await messageClient.PushMessage(pushMessageRequest);
         }
 
-        public async Task<ResponseItem> PushMessage(PushMessageRequest pushMessageRequest)
+        /// <summary>
+        /// Send message
+        /// </summary>
+        /// <param name="pushMessageRequest"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<ResponseItem>> PushMessage(PushMessageRequest pushMessageRequest)
         {
             if (pushMessageRequest.messages.Count > 5)
             {
@@ -175,13 +197,19 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="messageId"></param>
         /// <returns></returns>
-        public Stream GetMessageContent(string messageId) {
-            return  messageClient.GetMessageContent(messageId);
+        public  async Task<LineClientResult<Stream>> GetMessageContent(string messageId)
+        {
+            return await messageClient.GetMessageContent(messageId);
         }
 
-        public async Task<ResponseItem> MulticastMessage(List<string> to, List<Message> messages)
+        /// <summary>
+        /// Send message to multiple user
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="messages"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<ResponseItem>> MulticastMessage(List<string> to, List<Message> messages)
         {
-
             if (to.Count > 150)
             {
                 throw new ArgumentException("Maximum to are 150 users");
@@ -198,12 +226,11 @@ namespace LineBotKit.Client
                 messages = messages
             };
             return await messageClient.MulticastMessage(multicastMessage);
-
         }
 
         #endregion
 
-        #region Reply related
+        #region reply message related
 
         /// <summary>
         /// Reply text message
@@ -211,11 +238,14 @@ namespace LineBotKit.Client
         /// <param name="replyToken"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> ReplyTextMessage(string replyToken, string message)
+        public async Task<LineClientResult<ResponseItem>> ReplyTextMessage(string replyToken, string message)
         {
             var replyMessageRequest = new ReplyMessageRequest()
             {
-                replyToken = replyToken,
+                replyTokens = new List<String>() {
+                    replyToken
+                }
+                ,
                 messages = new List<Message>()
                 {
                    new TextMessage(message)
@@ -232,14 +262,17 @@ namespace LineBotKit.Client
         /// <param name="imageContentUrl"></param>
         /// <param name="imagePreviewUr"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> ReplyImageMessage(string replyToken, string imageContentUrl, string imagePreviewUr)
+        public async Task<LineClientResult<ResponseItem>> ReplyImageMessage(string replyToken, string imageContentUrl, string imagePreviewUr)
         {
             Uri imgContentUrl = new Uri(imageContentUrl);
             Uri imgePreviewUrl = new Uri(imagePreviewUr);
 
             var replyMessageRequest = new ReplyMessageRequest()
             {
-                replyToken = replyToken,
+                replyTokens = new List<string>() {
+                    replyToken
+                }
+                ,
                 messages = new List<Message>()
                 {
                    new ImageMessage(imgContentUrl,imgePreviewUrl)
@@ -256,12 +289,15 @@ namespace LineBotKit.Client
         /// <param name="packageId"></param>
         /// <param name="stickerId"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> ReplyStickerMessage(string replyToken, int packageId, int stickerId)
+        public async Task<LineClientResult<ResponseItem>> ReplyStickerMessage(string replyToken, int packageId, int stickerId)
         {
 
             var replyMessageRequest = new ReplyMessageRequest()
             {
-                replyToken = replyToken,
+                replyTokens = new List<string>() {
+                    replyToken
+                }
+                ,
                 messages = new List<Message>()
                 {
                    new StickerMessage(packageId,stickerId)
@@ -279,13 +315,16 @@ namespace LineBotKit.Client
         /// <param name="originalContentUrl"></param>
         /// <param name="duration"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> ReplyAudioMessage(string replyToken , string to, string originalContentUrl, int duration)
+        public async Task<LineClientResult<ResponseItem>> ReplyAudioMessage(string replyToken, string to, string originalContentUrl, int duration)
         {
             Uri _originalContentUrl = new Uri(originalContentUrl);
 
             var replyMessageRequest = new ReplyMessageRequest()
             {
-                replyToken = replyToken,
+                replyTokens = new List<string>() {
+                    replyToken
+                }
+                ,
                 messages = new List<Message>() {
                       new AudioMessage(_originalContentUrl,duration)
                 }
@@ -302,14 +341,17 @@ namespace LineBotKit.Client
         /// <param name="originalContentUrl"></param>
         /// <param name="previewImageUrl"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> ReplyVideoMessage(string replyToken , string to, string originalContentUrl, string previewImageUrl)
+        public async Task<LineClientResult<ResponseItem>> ReplyVideoMessage(string replyToken, string to, string originalContentUrl, string previewImageUrl)
         {
             Uri _originalContentUrl = new Uri(originalContentUrl);
             Uri _previewImageUrl = new Uri(previewImageUrl);
 
             var replyMessageRequest = new ReplyMessageRequest()
             {
-                replyToken = replyToken,
+                replyTokens = new List<string>() {
+                    replyToken
+                }
+                ,
                 messages = new List<Message>() {
                       new VideoMessage(_originalContentUrl,_previewImageUrl)
                 }
@@ -328,11 +370,14 @@ namespace LineBotKit.Client
         /// <param name="latitude"></param>
         /// <param name="longitude"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> ReplyLocationMessage(string replyToken , string to, string title, string address, decimal latitude, decimal longitude)
+        public async Task<LineClientResult<ResponseItem>> ReplyLocationMessage(string replyToken, string to, string title, string address, decimal latitude, decimal longitude)
         {
             var replyMessageRequest = new ReplyMessageRequest()
             {
-                replyToken = replyToken,
+                replyTokens = new List<string>() {
+                    replyToken
+                }
+                ,
                 messages = new List<Message>() {
                       new LocationMessage(title,address,latitude,longitude)
                 }
@@ -348,28 +393,34 @@ namespace LineBotKit.Client
         /// <param name="to"></param>
         /// <param name="imageMapMessages"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> ReplyImageMapMessage(string replyToken , string to, ImageMapMessage imageMapMessages)
+        public async Task<LineClientResult<ResponseItem>> ReplyImageMapMessage(string replyToken, string to, ImageMapMessage imageMapMessages)
         {
             var replyMessageRequest = new ReplyMessageRequest()
             {
-                replyToken = replyToken,
+                replyTokens = new List<string>() {
+                    replyToken
+                }
+                ,
                 messages = new List<Message>() { imageMapMessages }
             };
 
             return await messageClient.ReplyMessage(replyMessageRequest);
         }
 
-        public async Task<ResponseItem> ReplyMessage(ReplyMessageRequest reply)
+        public async Task<LineClientResult<ResponseItem>> ReplyMessage(ReplyMessageRequest replyMessageRequest)
         {
-
-            return await messageClient.ReplyMessage(reply);
+            return await messageClient.ReplyMessage(replyMessageRequest);
         }
 
         #endregion
-
         #region Profile related
 
-        public async Task<Profile> GetProfile(string userId)
+        /// <summary>
+        /// Get User Profile
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<Profile>> GetProfile(string userId)
         {
             return await userClient.GetProfile(userId);
         }
@@ -378,18 +429,33 @@ namespace LineBotKit.Client
 
         #region Group related
 
-        public async Task<ResponseItem> LeaveGroup(string groupId)
+        /// <summary>
+        /// Leave group
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<ResponseItem>> LeaveGroup(string groupId)
         {
             return await groupClient.Leave(groupId);
         }
 
-        public async Task<Profile> GetGroupMemberProfile(string userId, string groupId)
+        /// <summary>
+        /// Get group member profile
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<Profile>> GetGroupMemberProfile(string userId, string groupId)
         {
             return await groupClient.GetMemberProfile(userId, groupId);
-
         }
 
-        public async Task<MemberIdensResponse> GetGroupMemberIds(string groupId)
+        /// <summary>
+        /// Get group member idens
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<MemberIdensResponse>> GetGroupMemberIds(string groupId)
         {
             return await groupClient.GetMemberIds(groupId);
         }
@@ -398,16 +464,59 @@ namespace LineBotKit.Client
 
         #region Room related
 
-        public async Task<Profile> GetRoomMemberProfile(string userId, string roomId)
+        /// <summary>
+        /// Leave room
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<ResponseItem>> LeaveRoom(string roomId)
+        {
+            return await roomClient.Leave(roomId);
+        }
+
+        /// <summary>
+        /// Get room member profile
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<Profile>> GetRoomMemberProfile(string userId, string roomId)
         {
             return await roomClient.GetMemberProfile(userId, roomId);
         }
 
-        public async Task<MemberIdensResponse> GetRoomMemberIds(string roomId)
+        /// <summary>
+        /// Get room member idens
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<MemberIdensResponse>> GetRoomMemberIds(string roomId)
         {
             return await roomClient.GetMemberIds(roomId);
         }
 
+
+        #endregion
+
+        #region Oauth related
+
+        /// <summary>
+        /// Issue token
+        /// </summary>
+        /// <param name="issueTokenRequest"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<AccessTokenResponse>> IssueToken(IssueTokenRequest issueTokenRequest) {
+            return await authenticateClient.IssueToken(issueTokenRequest);
+        }
+
+        /// <summary>
+        /// Revoke token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<ResponseItem>> RevokeToken(string token) {
+            return await authenticateClient.RevokeToken(token);
+        }
 
         #endregion
 
@@ -418,7 +527,7 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="richMenuId"></param>
         /// <returns></returns>
-        public async Task<RichMenu> GetRichMenu(string richMenuId)
+        public async Task<LineClientResult<RichMenu>> GetRichMenu(string richMenuId)
         {
             return await richMenuClient.Get(richMenuId);
         }
@@ -428,7 +537,7 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="richMenu"></param>
         /// <returns></returns>
-        public async Task<RichMenuIdResponse> CreateRichMenu(RichMenu richMenu)
+        public async Task<LineClientResult<RichMenuIdResponse>> CreateRichMenu(RichMenu richMenu)
         {
             return await richMenuClient.Create(richMenu);
         }
@@ -438,7 +547,7 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="richMenuId"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> DeleteRichMenu(string richMenuId)
+        public async Task<LineClientResult<ResponseItem>> DeleteRichMenu(string richMenuId)
         {
             return await richMenuClient.Delete(richMenuId);
         }
@@ -448,7 +557,7 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<RichMenuIdResponse> GetRichMenuByUserId(string userId)
+        public async Task<LineClientResult<RichMenuIdResponse>> GetRichMenuByUserId(string userId)
         {
             return await richMenuClient.GetRichMenuByUserId(userId);
         }
@@ -459,7 +568,7 @@ namespace LineBotKit.Client
         /// <param name="userId"></param>
         /// <param name="richMenuId"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> LinkRichMenuWithUser(string userId, string richMenuId)
+        public async Task<LineClientResult<ResponseItem>> LinkRichMenuWithUser(string userId, string richMenuId)
         {
             return await richMenuClient.LinkRichMenuWithUser(userId, richMenuId);
         }
@@ -469,7 +578,7 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> UnLinkRichMenuWithUser(string userId)
+        public async Task<LineClientResult<ResponseItem>> UnLinkRichMenuWithUser(string userId)
         {
             return await richMenuClient.UnLinkRichMenuWithUser(userId);
         }
@@ -478,31 +587,30 @@ namespace LineBotKit.Client
         /// Gets a list of all uploaded rich menus.
         /// </summary>
         /// <returns></returns>
-        public async Task<RichMenuListResponse> GetRichMenuList()
+        public async Task<LineClientResult<RichMenuListResponse>> GetRichMenuList()
         {
             return await richMenuClient.GetRichMenuList();
         }
 
         /// <summary>
-        /// Downloads an image associated with a rich menu.
+        /// Setup rich menu image
         /// </summary>
         /// <param name="richMenuId"></param>
         /// <returns></returns>
-        public  Stream GetRichMenuImage(string richMenuId) {
-            return richMenuClient.GetRichMenuImage(richMenuId);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="richMenuId"></param>
-        /// <returns></returns>
-        public async Task<ResponseItem> SetRichMenuImage(string richMenuId , byte[] image)
+        public async Task<LineClientResult<ResponseItem>> SetRichMenuImage(string richMenuId, byte[] image)
         {
             return await richMenuClient.SetRichMenuImage(richMenuId, image);
         }
 
+        /// <summary>
+        /// Get rich menu image
+        /// </summary>
+        /// <param name="richMenuId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<Stream>> GetRichMenuImage(string richMenuId)
+        {
+            return await richMenuClient.GetRichMenuImage(richMenuId);
+        }
         #endregion
-
     }
 }

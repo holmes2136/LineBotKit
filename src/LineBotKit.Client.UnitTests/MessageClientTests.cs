@@ -1,54 +1,35 @@
-Ôªøusing System;
+using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
+using LinetBotKit.Common.Model.Message;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using LineBotKit.WebAPI;
-using LineBotKit.Common.Model;
-using System.Threading.Tasks;
-using LineBotKit.Common.Model.Message;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LineBotKit.Client.UnitTests
 {
     [TestClass]
     public class MessageClientTests
     {
-        private Mock<ILineApiClient> _webApiClient;
         private Mock<IMessageClient> _messagClient;
         private JsonSerializerSettings jsonSettings;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _webApiClient = new Mock<ILineApiClient>();
             _messagClient = new Mock<IMessageClient>();
 
             jsonSettings = new JsonSerializerSettings()
-             {
-                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                 NullValueHandling = NullValueHandling.Ignore
-             };
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore
+            };
 
             jsonSettings.Converters.Add(new StringEnumConverter(true));
-
-        }
-
-        [TestMethod]
-        public void PushMessage_RequestTest()
-        {
-
-            _messagClient.Setup(x => x.PushMessage(It.IsAny<PushMessageRequest>())).Returns(Task.FromResult<ResponseItem>(new ResponseItem()));
-
-            // Execute
-            Task<ResponseItem> response = _messagClient.Object.PushMessage(new PushMessageRequest());
-
-            ResponseItem result = response.Result;
-
-            //// Verify
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(result);
 
         }
 
@@ -125,7 +106,7 @@ namespace LineBotKit.Client.UnitTests
         public void PushLocationMessageRequest_JsonFormatTest()
         {
             string title = "my location";
-            string address = "„Äí150-0002 Êù±‰∫¨ÈÉΩÊ∏ãË∞∑Âå∫Ê∏ãË∞∑Ôºí‰∏ÅÁõÆÔºíÔºë‚àíÔºë";
+            string address = "¢E150-0002 ™F® ≥£ØA®¶∞œ2§B§Ï21-1";
             decimal latitude = 35.65910807942215M;
             decimal longitude = 139.70372892916203M;
 
@@ -138,25 +119,9 @@ namespace LineBotKit.Client.UnitTests
             };
 
             // Verify
-            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"to\":\"user id\",\"messages\":[{\"type\":\"location\",\"latitude\":35.65910807942215,\"longitude\":139.70372892916203,\"title\":\"my location\",\"address\":\"„Äí150-0002 Êù±‰∫¨ÈÉΩÊ∏ãË∞∑Âå∫Ê∏ãË∞∑Ôºí‰∏ÅÁõÆÔºíÔºë‚àíÔºë\"}]}");
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"to\":\"user id\",\"messages\":[{\"type\":\"location\",\"latitude\":35.65910807942215,\"longitude\":139.70372892916203,\"title\":\"my location\",\"address\":\"¢E150-0002 ™F® ≥£ØA®¶∞œ2§B§Ï21-1\"}]}");
         }
 
-        [TestMethod]
-        public void MulticastMessage_RequestTest()
-        {
-
-            _messagClient.Setup(x => x.MulticastMessage(It.IsAny<MultiCastMessageRequest>())).Returns(Task.FromResult<ResponseItem>(new ResponseItem()));
-
-            // Execute
-            Task<ResponseItem> response = _messagClient.Object.MulticastMessage(new MultiCastMessageRequest());
-
-            ResponseItem result = response.Result;
-
-            //// Verify
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(result);
-
-        }
 
         [TestMethod]
         public void MulticastMessageRequest_JsonFormatTest()
@@ -176,36 +141,21 @@ namespace LineBotKit.Client.UnitTests
         }
 
         [TestMethod]
-        public void ReplyMessage_RequestTest()
-        {
-
-            _messagClient.Setup(x => x.ReplyMessage(It.IsAny<ReplyMessageRequest>())).Returns(Task.FromResult<ResponseItem>(new ResponseItem()));
-
-            // Execute
-            Task<ResponseItem> response = _messagClient.Object.ReplyMessage(new ReplyMessageRequest());
-
-            ResponseItem result = response.Result;
-
-            //// Verify
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(result);
-
-        }
-
-        [TestMethod]
         public void ReplyTextMessage_JsonFormatTest()
         {
             ReplyMessageRequest request = new ReplyMessageRequest()
             {
-                 replyToken = "reply token",
-                 messages = new List<Message>() {
+                replyTokens = new List<string>() {
+                    "reply token"
+                }
+                ,
+                messages = new List<Message>() {
                       new TextMessage("test text")
                  }
             };
 
             // Verify
-            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"replyToken\":\"reply token\",\"messages\":[{\"type\":\"text\",\"text\":\"test text\"}]}");
+            Assert.AreEqual<string>(JsonConvert.SerializeObject(request, Formatting.None, jsonSettings), "{\"replyTokens\":[\"reply token\"],\"messages\":[{\"type\":\"text\",\"text\":\"test text\"}]}");
         }
-
     }
 }

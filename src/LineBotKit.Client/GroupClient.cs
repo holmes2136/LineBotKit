@@ -1,58 +1,71 @@
-﻿using LineBotKit.Common.Model;
+﻿using LineBotKit.Client.Request;
+using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using LineBotKit.WebAPI.Model;
 
 namespace LineBotKit.Client
 {
-    public class GroupClient: ClientBase, IGroupClient
+    public class GroupClient : Request.LineClientBase, IGroupClient
     {
-        public GroupClient(string _ChannelAccessToken)
-        {
-            this.ChannelAccessToken = _ChannelAccessToken;
-        }
-
+        public GroupClient(string channelAccessToken) : base(channelAccessToken){}
 
         /// <summary>
-        /// https://api.line.me/v2/bot/group/{groupId}/leave
-        /// </summary>
-        /// <param name="ToUserID"></param>
-        /// <param name="Message"></param>
-        /// <returns></returns>
-        public async Task<ResponseItem> Leave(string groupId)
-        {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, string.Format("bot/group/{0}/leave",groupId));
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// https://api.line.me/v2/bot/group/{groupId}/member/{userId}
+        /// Leave group
         /// </summary>
         /// <param name="groupId"></param>
         /// <returns></returns>
-        public async Task<Profile> GetMemberProfile(string userId,string groupId)
+        public async Task<LineClientResult<ResponseItem>> Leave(string groupId)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, string.Format("bot/group/{0}/member/{1}",groupId,userId));
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<Profile>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(groupId))
+            {
+                throw new ArgumentException("The property group iden can't not be null");
+            }
+
+            var request = new LinePostRequest<ResponseItem>(this, $"bot/group/{groupId}/leave");
+
+            return await request.Execute(null);
         }
 
         /// <summary>
-        /// https://api.line.me/v2/bot/group/{groupId}/members/ids
+        /// Get group member profile
         /// </summary>
         /// <param name="groupId"></param>
         /// <returns></returns>
-        public async Task<MemberIdensResponse> GetMemberIds(string groupId)
+        public async Task<LineClientResult<Profile>> GetMemberProfile(string userId, string groupId)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Get, string.Format("bot/group/{0}/members/ids",groupId));
-            request.Authorization = this.ChannelAccessToken;
-            return await ExecuteApiCallAsync<MemberIdensResponse>(request).ConfigureAwait(false);
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("The property user iden can't not be null");
+            }
+
+            if (string.IsNullOrEmpty(groupId))
+            {
+                throw new ArgumentException("The property group iden can't not be null");
+            }
+
+            var request = new LineGetRequest<Profile>(this, $"bot/group/{groupId}/member/{userId}");
+
+            return await request.Execute();
         }
-        
+
+        /// <summary>
+        /// Get group member idens
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        public async Task<LineClientResult<MemberIdensResponse>> GetMemberIds(string groupId)
+        {
+            if (string.IsNullOrEmpty(groupId))
+            {
+                throw new ArgumentException("The property group iden can't not be null");
+            }
+
+            var request = new LineGetRequest<MemberIdensResponse>(this, $"bot/group/{groupId}/members/ids");
+
+            return await request.Execute();
+        }
     }
 }

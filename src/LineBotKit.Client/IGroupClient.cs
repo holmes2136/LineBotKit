@@ -1,7 +1,7 @@
-﻿using LineBotKit.Common.Model;
+﻿using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,12 +9,8 @@ namespace LineBotKit.Client
 {
     public interface IGroupClient
     {
-
-         Task<ResponseItem> Leave(string groupId);
-
-         Task<Profile> GetMemberProfile(string userId, string groupId);
-
-         Task<MemberIdensResponse> GetMemberIds(string groupId);
-       
+        Task<LineClientResult<ResponseItem>> Leave(string groupId);
+        Task<LineClientResult<Profile>> GetMemberProfile(string userId, string groupId);
+        Task<LineClientResult<MemberIdensResponse>> GetMemberIds(string groupId);
     }
 }

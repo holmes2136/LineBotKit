@@ -1,37 +1,35 @@
-﻿using LineBotKit.Common.Model;
-using LineBotKit.WebAPI.Model;
+﻿using LineBotKit.Client.Request;
+using LineBotKit.Client.Response;
+using LinetBotKit.Common.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LineBotKit.Client
 {
-    public class AuthenticateClient: ClientBase, IAuthenticateClient
+    public class AuthenticateClient : Request.LineClientBase,IAuthenticateClient
     {
-        public AuthenticateClient()
-        {
-
-        }
+        public AuthenticateClient(string channelAccessToken) : base(channelAccessToken) { }
 
         /// <summary>
         /// Issues a short-lived channel access token.
         /// </summary>
         /// <param name="issueTokenRequest"></param>
         /// <returns></returns>
-        public async Task<AccessTokenResponse> IssueToken(IssueTokenRequest issueTokenRequest)
+        public async Task<LineClientResult<AccessTokenResponse>> IssueToken(IssueTokenRequest issueTokenRequest)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, "/oauth/accessToken", issueTokenRequest);
-            //request.Authorization = this.ChannelAccessToken;
-            request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
+            if (issueTokenRequest == null)
             {
-                ["grant_type"] = issueTokenRequest.grant_type,
-                ["client_id"] = issueTokenRequest.client_id,
-                ["client_secret"] = issueTokenRequest.client_secret
-            });
-            return await ExecuteApiCallAsync<AccessTokenResponse>(request).ConfigureAwait(false);
+                throw new ArgumentNullException(nameof(IssueTokenRequest));
+            }
+
+            var request = new LinePostFormUrlEncodedRequest<AccessTokenResponse>(this, $"oauth/accessToken");
+            request.Params.Add(new KeyValuePair<string,string>("grant_type", issueTokenRequest.grant_type));
+            request.Params.Add(new KeyValuePair<string, string>("client_id", issueTokenRequest.client_id));
+            request.Params.Add(new KeyValuePair<string, string>("client_secret", issueTokenRequest.client_secret));
+
+            return await request.Execute(issueTokenRequest);
         }
 
         /// <summary>
@@ -39,14 +37,17 @@ namespace LineBotKit.Client
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<ResponseItem> RevokeToken(string token)
+        public async Task<LineClientResult<ResponseItem>> RevokeToken(string token)
         {
-            LineApiRequest request = new LineApiRequest(ApiName, SemanticVersion, HttpMethod.Post, "/oauth/revoke");
-            request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
+            if (string.IsNullOrEmpty(token))
             {
-                ["access_token"] = token
-            });
-            return await ExecuteApiCallAsync<ResponseItem>(request).ConfigureAwait(false);
+                throw new ArgumentNullException("The parameter token should not be empty or null");
+            }
+
+            var request = new LinePostFormUrlEncodedRequest<ResponseItem>(this, $"oauth/revoke");
+            request.Params.Add(new KeyValuePair<string, string>("access_token", token));
+
+            return await request.Execute(null);
         }
     }
 }
