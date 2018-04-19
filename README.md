@@ -18,7 +18,7 @@ How to apply and setup instruction : https://dotblogs.com.tw/rexhuang/2017/07/02
 #### Installation
 ```
 
-Install-Package LineBotKit.Client -Version 1.0.0
+Install-Package LineBotKit.Client -Version 3.0.0
 
 ```
 
